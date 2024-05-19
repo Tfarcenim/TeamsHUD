@@ -1,6 +1,6 @@
 package com.t2pellet.teams.mixin;
 
-import com.t2pellet.teams.client.TeamsHUDClientFabric;
+import com.t2pellet.teams.client.TeamsHUDClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +16,7 @@ public class TabHudMixin {
 
     @ModifyVariable(method = "render", at = @At("STORE"), ordinal = 9)
     private int onRenderTabList(int p) {
-        if (TeamsHUDClientFabric.compass.isShowing()) {
+        if (TeamsHUDClient.compass.isShowing()) {
             float scaledHeight = minecraft.getWindow().getGuiScaledHeight();
             return (int) (scaledHeight * 0.01) + 12 + 16;
         }

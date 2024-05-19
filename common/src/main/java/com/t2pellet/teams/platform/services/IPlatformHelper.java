@@ -3,8 +3,13 @@ package com.t2pellet.teams.platform.services;
 import com.t2pellet.teams.network.client.S2CModPacket;
 import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.Config;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public interface IPlatformHelper {
 
@@ -43,5 +48,12 @@ public interface IPlatformHelper {
     Config<?> getConfig();
 
     void sendToClient(S2CModPacket msg, ServerPlayer player);
+
+    default void sendToClients(S2CModPacket msg, Collection<ServerPlayer> playerList) {
+        playerList.forEach(player -> sendToClient(msg,player));
+    }
     void sendToServer(C2SModPacket msg);
+
+    void registerKeyBinding(Optional<KeyMapping> keyMapping);
+
 }

@@ -10,8 +10,8 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
-import com.t2pellet.teams.network.PacketHandler;
-import com.t2pellet.teams.network.packets.toasts.TeamInviteSentPacket;
+import com.t2pellet.teams.network.client.S2CTeamInviteSentPacket;
+import com.t2pellet.teams.platform.Services;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TextComponent;
@@ -74,7 +74,7 @@ public class TeamCommand {
         }
         try {
             TeamDB.INSTANCE.invitePlayerToTeam(newPlayer, team);
-            PacketHandler.INSTANCE.sendTo(new TeamInviteSentPacket(team.getName(), newPlayer.getName().getString()), player);
+            Services.PLATFORM.sendToClient(new S2CTeamInviteSentPacket(team.getName(), newPlayer.getName().getString()), player);
         } catch (Team.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }

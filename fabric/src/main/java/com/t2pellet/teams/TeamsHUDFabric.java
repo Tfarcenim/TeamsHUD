@@ -6,9 +6,7 @@ import com.t2pellet.teams.core.EventHandlers;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.events.AdvancementEvents;
 import com.t2pellet.teams.events.PlayerUpdateEvents;
-import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.PacketHandlerFabric;
-import com.t2pellet.teams.network.TeamPackets;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -62,8 +60,6 @@ public class TeamsHUDFabric implements ModInitializer {
 		// Config registration
 		AutoConfig.register(TeamsConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(TeamsConfig.class).getConfig();
-		// Packet registration
-		PacketHandler.register(TeamPackets.class);
 		// Command registration
 		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
 			TeamCommand.register(dispatcher);
