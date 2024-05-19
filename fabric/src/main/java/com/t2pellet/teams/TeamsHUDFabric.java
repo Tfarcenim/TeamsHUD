@@ -7,6 +7,7 @@ import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.events.AdvancementEvents;
 import com.t2pellet.teams.events.PlayerUpdateEvents;
 import com.t2pellet.teams.network.PacketHandler;
+import com.t2pellet.teams.network.PacketHandlerFabric;
 import com.t2pellet.teams.network.TeamPackets;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
@@ -73,6 +74,7 @@ public class TeamsHUDFabric implements ModInitializer {
 		PlayerUpdateEvents.PLAYER_HEALTH_UPDATE.register(EventHandlers.playerHealthUpdate);
 		PlayerUpdateEvents.PLAYER_COPY.register(EventHandlers.playerCopy);
 		AdvancementEvents.ADVANCEMENT_GRANTED.register(EventHandlers.playerAdvancement);
+		PacketHandlerFabric.registerPackets();
 		TeamsHUD.init();
 	}
 }

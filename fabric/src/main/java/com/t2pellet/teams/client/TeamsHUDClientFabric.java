@@ -4,6 +4,7 @@ import com.t2pellet.teams.client.TeamsKeys.TeamsKey;
 import com.t2pellet.teams.client.core.EventHandlers;
 import com.t2pellet.teams.client.ui.hud.CompassOverlay;
 import com.t2pellet.teams.client.ui.hud.StatusOverlay;
+import com.t2pellet.teams.network.PacketHandlerFabric;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
@@ -33,6 +34,7 @@ public class TeamsHUDClientFabric implements ClientModInitializer {
         // Register events
         ClientLoginConnectionEvents.DISCONNECT.register(EventHandlers.disconnect);
         ClientPlayConnectionEvents.DISCONNECT.register(EventHandlers.disconnect1);
+        PacketHandlerFabric.registerPackets();
     }
 
     public static void clientInit() {

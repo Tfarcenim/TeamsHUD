@@ -1,6 +1,10 @@
 package com.t2pellet.teams.platform.services;
 
+import com.t2pellet.teams.network.client.S2CModPacket;
+import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.Config;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public interface IPlatformHelper {
 
@@ -37,4 +41,7 @@ public interface IPlatformHelper {
     }
 
     Config<?> getConfig();
+
+    void sendToClient(S2CModPacket msg, ServerPlayer player);
+    void sendToServer(C2SModPacket msg);
 }

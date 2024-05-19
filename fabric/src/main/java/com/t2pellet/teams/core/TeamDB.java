@@ -1,7 +1,6 @@
 package com.t2pellet.teams.core;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.packets.TeamDataPacket;
 import com.t2pellet.teams.network.packets.toasts.TeamInvitedPacket;
