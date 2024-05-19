@@ -32,7 +32,7 @@ public class TeamsKeys {
         }
 
         public void register() {
-            Services.PLATFORM.registerKeyBinding(Optional.of(keyBinding));
+            Services.PLATFORM.registerKeyBinding(keyBinding);
         }
 
         public String getLocalizedName() {

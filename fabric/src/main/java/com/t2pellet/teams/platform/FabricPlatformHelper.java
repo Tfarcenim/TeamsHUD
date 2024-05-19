@@ -10,10 +10,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-
-import java.util.Optional;
 
 public class FabricPlatformHelper implements IPlatformHelper {
     Config<?> config = new FabricConfig<>();
@@ -54,7 +51,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public void registerKeyBinding(Optional<KeyMapping> keyMapping) {
-        keyMapping.ifPresent(KeyBindingHelper::registerKeyBinding);
+    public void registerKeyBinding(KeyMapping keyMapping) {
+        KeyBindingHelper.registerKeyBinding(keyMapping);
     }
 }
