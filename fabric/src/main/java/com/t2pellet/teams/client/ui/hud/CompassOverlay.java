@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.client.core.ClientTeam;
+import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +35,7 @@ public class CompassOverlay extends GuiComponent {
     }
 
     public void render(PoseStack matrices) {
-        if (!TeamsHUDFabric.getConfig().enableCompassHUD || !enabled) {
+        if (!Services.PLATFORM.getConfig().getConfigEntry(Config.enableCompassHUD).getAsBoolean() || !enabled) {
             isShowing = false;
             return;
         }

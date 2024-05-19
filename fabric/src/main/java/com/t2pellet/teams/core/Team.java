@@ -9,6 +9,8 @@ import com.t2pellet.teams.network.packets.TeamDataPacket;
 import com.t2pellet.teams.network.packets.TeamInitPacket;
 import com.t2pellet.teams.network.packets.TeamPlayerDataPacket;
 import com.t2pellet.teams.network.packets.toasts.TeamUpdatePacket;
+import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
@@ -317,12 +319,12 @@ public class Team extends net.minecraft.world.scores.Team {
     public static class Builder {
 
         private final String name;
-        private boolean showFriendlyInvisibles = TeamsHUDFabric.getConfig().showInvisibleTeammates;
-        private boolean friendlyFireAllowed = TeamsHUDFabric.getConfig().friendlyFireEnabled;
-        private Visibility nameTagVisibilityRule = TeamsHUDFabric.getConfig().nameTagVisibility;
-        private ChatFormatting colour = TeamsHUDFabric.getConfig().colour;
-        private Visibility deathMessageVisibilityRule = TeamsHUDFabric.getConfig().deathMessageVisibility;
-        private CollisionRule collisionRule = TeamsHUDFabric.getConfig().collisionRule;
+        private boolean showFriendlyInvisibles = Services.PLATFORM.getConfig().getConfigEntry(Config.showInvisibleTeammates).getAsBoolean();
+        private boolean friendlyFireAllowed = Services.PLATFORM.getConfig().getConfigEntry(Config.friendlyFireEnabled).getAsBoolean();
+        private Visibility nameTagVisibilityRule = Services.PLATFORM.getConfig().getConfigEntry(Config.nameTagVisibility).getAs(Visibility.class);
+        private ChatFormatting colour = Services.PLATFORM.getConfig().getConfigEntry(Config.colour).getAs(ChatFormatting.class);
+        private Visibility deathMessageVisibilityRule = Services.PLATFORM.getConfig().getConfigEntry(Config.deathMessageVisibility).getAs(Visibility.class);
+        private CollisionRule collisionRule = Services.PLATFORM.getConfig().getConfigEntry(Config.collisionRule).getAs(CollisionRule.class);
 
         public Builder(String name) {
             this.name = name;

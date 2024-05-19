@@ -23,4 +23,9 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
         return !FMLLoader.isProduction();
     }
+
+    @Override
+    public Config<?> getConfig() {
+        return null;
+    }
 }

@@ -6,5 +6,6 @@ public interface ConfigEntry<T> {
     double getAsDouble();
     int getAsInt();
     T get();
+    <U> U getAs(Class<U> clazz);
 
 }

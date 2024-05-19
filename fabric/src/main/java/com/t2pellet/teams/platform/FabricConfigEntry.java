@@ -27,4 +27,9 @@ public class FabricConfigEntry<T> implements ConfigEntry<T> {
     public T get() {
         return supplier.get();
     }
+
+    @Override
+    public <U> U getAs(Class<U> clazz) {
+        return (U)get();
+    }
 }
