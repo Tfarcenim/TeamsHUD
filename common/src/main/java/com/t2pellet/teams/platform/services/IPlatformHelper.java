@@ -1,5 +1,7 @@
 package com.t2pellet.teams.platform.services;
 
+import com.t2pellet.teams.platform.Config;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +35,6 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    Config<?> getConfig();
 }
