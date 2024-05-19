@@ -9,7 +9,6 @@
   ],
   "client": [
     "InventoryScreenMixin",
-    "MinecraftMixin",
     "TabHudMixin"
   ],
   "injectors": {

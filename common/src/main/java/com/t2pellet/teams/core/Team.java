@@ -87,7 +87,7 @@ public class Team extends net.minecraft.world.scores.Team {
         return advancements;
     }
 
-    void playerOnline(ServerPlayer player, boolean sendPackets) {
+    public void playerOnline(ServerPlayer player, boolean sendPackets) {
         onlinePlayers.put(player.getUUID(), player);
         ((IHasTeam) player).setTeam(this);
         // Packets
@@ -116,7 +116,7 @@ public class Team extends net.minecraft.world.scores.Team {
         return players.stream();
     }
 
-    void playerOffline(ServerPlayer player, boolean sendPackets) {
+    public void playerOffline(ServerPlayer player, boolean sendPackets) {
         onlinePlayers.remove(player.getUUID());
         // Packets
         if (sendPackets) {

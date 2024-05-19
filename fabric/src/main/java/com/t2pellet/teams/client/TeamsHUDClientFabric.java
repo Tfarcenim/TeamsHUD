@@ -27,16 +27,15 @@ public class TeamsHUDClientFabric implements ClientModInitializer {
                 }
             }
         });
-        // Register events
-        ClientLoginConnectionEvents.DISCONNECT.register(EventHandlers.disconnect);
-        ClientPlayConnectionEvents.DISCONNECT.register(EventHandlers.disconnect1);
-        ClientPacketHandlerFabric.registerPackets();
-    }
 
-    public static void clientInit() {
         // Register keybinds
         for (TeamsKey key : TeamsKeys.KEYS) {
             key.register();
         }
+
+        // Register events
+        ClientLoginConnectionEvents.DISCONNECT.register(EventHandlers.disconnect);
+        ClientPlayConnectionEvents.DISCONNECT.register(EventHandlers.disconnect1);
+        ClientPacketHandlerFabric.registerPackets();
     }
 }

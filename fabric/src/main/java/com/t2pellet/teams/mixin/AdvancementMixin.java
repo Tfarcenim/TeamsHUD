@@ -1,7 +1,6 @@
 package com.t2pellet.teams.mixin;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.events.AdvancementEvents;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,8 +17,6 @@ public class AdvancementMixin {
 
     @Inject(method = "award", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerAdvancements;ensureVisibility(Lnet/minecraft/advancements/Advancement;)V"))
     public void advancementCompleted(Advancement advancement, String criterionName, CallbackInfoReturnable<Boolean> ci) {
-        if (!TeamsHUD.getServer().overworld().isClientSide) {
-            AdvancementEvents.ADVANCEMENT_GRANTED.invoker().onPlayerAdvancement(player, advancement);
-        }
+            TeamsHUD.onAdvancement(player, advancement);
     }
 }

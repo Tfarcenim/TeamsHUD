@@ -73,11 +73,6 @@ public class ServerPlayerMixin extends Player implements IHasTeam {
 		PlayerUpdateEvents.PLAYER_HEALTH_UPDATE.invoker().onHealthUpdate(player, player.getHealth(), player.getFoodData().getFoodLevel());
 	}
 
-	@Inject(at = @At("TAIL"), method = "restoreFrom")
-	private void copyFrom(ServerPlayer oldPlayer, boolean alive, CallbackInfo info) {
-		PlayerUpdateEvents.PLAYER_COPY.invoker().onPlayerRespawn(oldPlayer, (ServerPlayer) ((Object) this));
-	}
-
 	@Override
 	public boolean isSpectator() {
 		return this.gameMode.getGameModeForPlayer() == GameType.SPECTATOR;
