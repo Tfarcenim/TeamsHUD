@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.t2pellet.teams.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "ServerPlayerMixin",
+    "AdvancementMixin",
+    "AdvancementAccessor"
+  ],
+  "client": [
+    "InventoryScreenMixin",
+    "InventoryScreenAccessor",
+    "TabHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
