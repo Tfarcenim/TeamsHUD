@@ -1,10 +1,10 @@
 package com.t2pellet.teams.mixin;
 
 import com.mojang.authlib.GameProfile;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
-import com.t2pellet.teams.events.PlayerUpdateEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -70,7 +70,7 @@ public class ServerPlayerMixin extends Player implements IHasTeam {
 	@Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/server/level/ServerPlayer;getHealth()F",ordinal = 1), method = "doTick")
 	private void playerTick(CallbackInfo info) {
 		var player = (ServerPlayer) ((Object) this);
-		PlayerUpdateEvents.PLAYER_HEALTH_UPDATE.invoker().onHealthUpdate(player, player.getHealth(), player.getFoodData().getFoodLevel());
+		TeamsHUD.onPlayerHealthUpdate(player,player.getHealth(),player.getFoodData().getFoodLevel());
 	}
 
 	@Override

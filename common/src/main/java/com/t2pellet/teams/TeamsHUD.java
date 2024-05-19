@@ -3,6 +3,7 @@ package com.t2pellet.teams;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.client.S2CTeamDataPacket;
+import com.t2pellet.teams.network.client.S2CTeamPlayerDataPacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -102,4 +105,13 @@ public class TeamsHUD {
             e.printStackTrace();
         }
     }
+
+    public static void onPlayerHealthUpdate(ServerPlayer player, float health, int hunger) {
+        Team team = TeamDB.INSTANCE.getTeam(player);
+        if (team != null) {
+            List<ServerPlayer> players = team.getOnlinePlayers().stream().filter(other -> !other.equals(player)).collect(Collectors.toList());
+            Services.PLATFORM.sendToClients(new S2CTeamPlayerDataPacket(player, S2CTeamPlayerDataPacket.Type.UPDATE), players);
+        }
+    }
+
 }

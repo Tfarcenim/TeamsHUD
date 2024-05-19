@@ -1,7 +1,6 @@
 package com.t2pellet.teams.client;
 
 import com.t2pellet.teams.client.TeamsKeys.TeamsKey;
-import com.t2pellet.teams.client.core.EventHandlers;
 import com.t2pellet.teams.network.ClientPacketHandlerFabric;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -34,8 +33,8 @@ public class TeamsHUDClientFabric implements ClientModInitializer {
         }
 
         // Register events
-        ClientLoginConnectionEvents.DISCONNECT.register(EventHandlers.disconnect);
-        ClientPlayConnectionEvents.DISCONNECT.register(EventHandlers.disconnect1);
+        ClientLoginConnectionEvents.DISCONNECT.register((handler, client) -> TeamsHUDClient.clientDisconnect());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> TeamsHUDClient.clientDisconnect());
         ClientPacketHandlerFabric.registerPackets();
     }
 }
