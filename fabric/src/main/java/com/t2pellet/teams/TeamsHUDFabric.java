@@ -33,30 +33,8 @@ public class TeamsHUDFabric implements ModInitializer {
 	public void onInitialize() {
 		TeamsHUD.LOGGER.info("Teams mod init!");
 
-		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-			// Get server instance
-			TeamsHUD.server = server;
-			// Load saved teams
-			try {
-				File saveFile = new File(server.getWorldPath(LevelResource.ROOT).toFile(), "teams.dat");
-				CompoundTag element = NbtIo.read(saveFile);
-				if (element != null) {
-					TeamDB.INSTANCE.fromNBT(element);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-		ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-			// Save teams
-			try {
-				File saveFile = new File(server.getWorldPath(LevelResource.ROOT).toFile(), "teams.dat");
-				CompoundTag element = TeamDB.INSTANCE.toNBT();
-				NbtIo.write(element, saveFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+		ServerLifecycleEvents.SERVER_STARTED.register(TeamsHUD::onServerStarted);
+		ServerLifecycleEvents.SERVER_STOPPED.register(TeamsHUD::onServerStopped);
 		// Config registration
 		AutoConfig.register(TeamsConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(TeamsConfig.class).getConfig();
