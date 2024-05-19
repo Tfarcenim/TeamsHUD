@@ -4,14 +4,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.client.core.ClientTeam;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-@Environment(EnvType.CLIENT)
 public class CompassOverlay extends GuiComponent {
 
     private static final int HUD_WIDTH = 182;

@@ -1,14 +1,11 @@
 package com.t2pellet.teams.mixin;
 
 import com.t2pellet.teams.client.TeamsModClient;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Environment(EnvType.CLIENT)
 @Mixin(PlayerTabOverlay.class)
 public class TabHudMixin {
 

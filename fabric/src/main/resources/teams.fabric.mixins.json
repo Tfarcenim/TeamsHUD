@@ -5,12 +5,10 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "ServerPlayerMixin",
-    "AdvancementMixin",
-    "AdvancementAccessor"
+    "AdvancementMixin"
   ],
   "client": [
     "InventoryScreenMixin",
-    "InventoryScreenAccessor",
     "TabHudMixin"
   ],
   "injectors": {

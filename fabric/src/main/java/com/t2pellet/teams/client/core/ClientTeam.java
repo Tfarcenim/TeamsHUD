@@ -1,13 +1,10 @@
 package com.t2pellet.teams.client.core;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.UUID;
 
-@Environment(EnvType.CLIENT)
 public interface ClientTeam {
 
     ClientTeam INSTANCE = new ClientTeamImpl();

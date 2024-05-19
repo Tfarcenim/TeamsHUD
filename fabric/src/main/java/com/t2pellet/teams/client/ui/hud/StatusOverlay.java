@@ -1,12 +1,10 @@
 package com.t2pellet.teams.client.ui.hud;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.client.core.ClientTeam;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -15,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import java.awt.*;
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
 public class StatusOverlay extends GuiComponent {
 
     private static final ResourceLocation ICONS = new ResourceLocation(TeamsHUD.MODID, "textures/gui/hudicons.png");
