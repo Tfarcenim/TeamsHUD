@@ -12,7 +12,7 @@ public class TeamsHUDForge {
         // project.
     
         // Use Forge to bootstrap the Common mod.
-        TeamsHUD.LOG.info("Hello Forge world!");
+        TeamsHUD.LOGGER.info("Hello Forge world!");
         TeamsHUD.init();
         
     }

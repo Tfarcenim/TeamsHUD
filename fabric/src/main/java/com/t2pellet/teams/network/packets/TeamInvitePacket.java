@@ -1,5 +1,6 @@
 package com.t2pellet.teams.network.packets;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.Team;
@@ -28,10 +29,10 @@ public class TeamInvitePacket extends ServerPacket {
     @Override
     public void execute() {
         UUID from = tag.getUUID(FROM_KEY);
-        UUID to = TeamsHUDFabric.getServer().getProfileCache().get(tag.getString(TO_KEY)).orElseThrow().getId();
+        UUID to = TeamsHUD.getServer().getProfileCache().get(tag.getString(TO_KEY)).orElseThrow().getId();
 
-        ServerPlayer fromPlayer = TeamsHUDFabric.getServer().getPlayerList().getPlayer(from);
-        ServerPlayer toPlayer = TeamsHUDFabric.getServer().getPlayerList().getPlayer(to);
+        ServerPlayer fromPlayer = TeamsHUD.getServer().getPlayerList().getPlayer(from);
+        ServerPlayer toPlayer = TeamsHUD.getServer().getPlayerList().getPlayer(to);
 
         Team team = ((IHasTeam) fromPlayer).getTeam();
         if (team == null) {

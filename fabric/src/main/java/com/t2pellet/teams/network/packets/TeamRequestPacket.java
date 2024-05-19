@@ -1,6 +1,6 @@
 package com.t2pellet.teams.network.packets;
 
-import com.t2pellet.teams.TeamsHUDFabric;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.PacketHandler;
@@ -33,7 +33,7 @@ public class TeamRequestPacket extends ServerPacket {
             throw new IllegalArgumentException("Got request to join team " + name + ", but that team doesn't exist");
         } else {
             // Get first online player in list of seniority
-            var playerManager = TeamsHUDFabric.getServer().getPlayerList();
+            var playerManager = TeamsHUD.getServer().getPlayerList();
             ServerPlayer seniorPlayer = team.getPlayerUuids()
                     .filter(p -> playerManager.getPlayer(p) != null)
                     .map(playerManager::getPlayer)

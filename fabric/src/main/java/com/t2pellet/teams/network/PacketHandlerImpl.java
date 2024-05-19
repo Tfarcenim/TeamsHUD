@@ -1,5 +1,6 @@
 package com.t2pellet.teams.network;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
@@ -37,7 +38,7 @@ class PacketHandlerImpl implements PacketHandler {
                     try {
                         packetClass.getDeclaredConstructor(Minecraft.class, FriendlyByteBuf.class).newInstance(minecraftClient, packetByteBuf);
                     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
-                        TeamsHUDFabric.LOGGER.error("Error: Failed to instantiate packet - " + id);
+                        TeamsHUD.LOGGER.error("Error: Failed to instantiate packet - " + id);
                     }
                 });
             }
@@ -47,7 +48,7 @@ class PacketHandlerImpl implements PacketHandler {
                 try {
                     packetClass.getDeclaredConstructor(MinecraftServer.class, FriendlyByteBuf.class).newInstance(minecraftServer, packetByteBuf);
                 } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
-                    TeamsHUDFabric.LOGGER.error("Error: Failed to instantiate packet - " + id);
+                    TeamsHUD.LOGGER.error("Error: Failed to instantiate packet - " + id);
                 }
             });
         }

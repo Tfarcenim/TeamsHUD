@@ -1,5 +1,6 @@
 package com.t2pellet.teams.network.packets;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
@@ -29,9 +30,9 @@ public class TeamKickPacket extends ServerPacket {
     @Override
     public void execute() {
         Team team = TeamDB.INSTANCE.getTeam(tag.getString(TEAM_KEY));
-        ServerPlayer sender = TeamsHUDFabric.getServer().getPlayerList().getPlayer(tag.getUUID(SENDER_KEY));
+        ServerPlayer sender = TeamsHUD.getServer().getPlayerList().getPlayer(tag.getUUID(SENDER_KEY));
         if (sender != null && team.playerHasPermissions(sender)) {
-            ServerPlayer kicked = TeamsHUDFabric.getServer().getPlayerList().getPlayer(tag.getUUID(KICKED_KEY));
+            ServerPlayer kicked = TeamsHUD.getServer().getPlayerList().getPlayer(tag.getUUID(KICKED_KEY));
             try {
                 TeamDB.INSTANCE.removePlayerFromTeam(kicked);
             } catch (Team.TeamException ex) {

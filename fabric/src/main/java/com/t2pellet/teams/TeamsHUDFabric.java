@@ -16,42 +16,27 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraft.world.scores.Scoreboard;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
 public class TeamsHUDFabric implements ModInitializer {
 
-	public static final Logger LOGGER = LogManager.getLogger(TeamsHUD.MODID);
-	private static MinecraftServer server;
-	private static Scoreboard scoreboard;
 	private static TeamsConfig config;
-
-	public static MinecraftServer getServer() {
-		return server;
-	}
 
 	public static TeamsConfig getConfig() {
 		return config;
 	}
 
-	public static Scoreboard getScoreboard() {
-		return scoreboard;
-	}
-
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Teams mod init!");
+		TeamsHUD.LOGGER.info("Teams mod init!");
 
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			// Get server instance
-			TeamsHUDFabric.server = server;
-			TeamsHUDFabric.scoreboard = server.getScoreboard();
+			TeamsHUD.server = server;
+			TeamsHUD.scoreboard = server.getScoreboard();
 			// Load saved teams
 			try {
 				File saveFile = new File(server.getWorldPath(LevelResource.ROOT).toFile(), "teams.dat");

@@ -1,18 +1,16 @@
 package com.t2pellet.teams.client.core;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.ui.menu.TeamsLonelyScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsMainScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
 
-@Environment(EnvType.CLIENT)
 class ClientTeamImpl implements ClientTeam {
 
     private Minecraft client = Minecraft.getInstance();
@@ -83,7 +81,7 @@ class ClientTeamImpl implements ClientTeam {
             teammate.health = health;
             teammate.hunger = hunger;
         } else {
-            TeamsHUDFabric.LOGGER.warn("Tried updating player with UUID " + player + "but they are not in this clients team");
+            TeamsHUD.LOGGER.warn("Tried updating player with UUID " + player + "but they are not in this clients team");
         }
     }
 

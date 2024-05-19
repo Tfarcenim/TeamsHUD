@@ -1,5 +1,6 @@
 package com.t2pellet.teams.core;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.packets.TeamDataPacket;
@@ -34,7 +35,7 @@ public class TeamDB {
             throw new Team.TeamException(new TranslatableComponent("teams.error.duplicateteam"));
         }
         teams.put(team.getName(), team);
-        ServerPlayer[] players = TeamsHUDFabric.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
+        ServerPlayer[] players = TeamsHUD.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
         PacketHandler.INSTANCE.sendTo(new TeamDataPacket(TeamDataPacket.Type.ADD, team.name), players);
     }
 
@@ -47,16 +48,16 @@ public class TeamDB {
         if (creator != null) {
             team.addPlayer(creator);
         }
-        ServerPlayer[] players = TeamsHUDFabric.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
+        ServerPlayer[] players = TeamsHUD.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
         PacketHandler.INSTANCE.sendTo(new TeamDataPacket(TeamDataPacket.Type.ONLINE, team.name), players);
         return team;
     }
 
     public void removeTeam(Team team) {
         teams.remove(team.getName());
-        TeamsHUDFabric.getScoreboard().removePlayerTeam(TeamsHUDFabric.getScoreboard().getPlayerTeam(team.getName()));
+        TeamsHUD.getScoreboard().removePlayerTeam(TeamsHUD.getScoreboard().getPlayerTeam(team.getName()));
         team.clear();
-        ServerPlayer[] players = TeamsHUDFabric.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
+        ServerPlayer[] players = TeamsHUD.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
         PacketHandler.INSTANCE.sendTo(new TeamDataPacket(TeamDataPacket.Type.REMOVE, team.name), players);
     }
 

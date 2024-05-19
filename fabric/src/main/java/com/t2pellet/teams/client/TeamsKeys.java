@@ -6,15 +6,11 @@ import com.t2pellet.teams.client.ui.toast.ToastInvited;
 import com.t2pellet.teams.client.ui.toast.ToastRequested;
 import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.packets.TeamJoinPacket;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.Toast;
 import org.lwjgl.glfw.GLFW;
 
-@Environment(EnvType.CLIENT)
 public class TeamsKeys {
 
     public static class TeamsKey {
@@ -34,7 +30,7 @@ public class TeamsKeys {
         }
 
         public void register() {
-            KeyBindingHelper.registerKeyBinding(keyBinding);
+            TeamsHUDClient.registerKeybinding(keyBinding);
         }
 
         public String getLocalizedName() {

@@ -1,7 +1,7 @@
 package com.t2pellet.teams.core;
 
 import com.mojang.authlib.GameProfile;
-import com.t2pellet.teams.TeamsHUDFabric;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.mixin.AdvancementAccessor;
 import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.packets.TeamClearPacket;
@@ -41,9 +41,9 @@ public class Team extends net.minecraft.world.scores.Team {
         this.name = name;
         players = new HashSet<>();
         onlinePlayers = new HashMap<>();
-        scoreboardTeam = TeamsHUDFabric.getScoreboard().getPlayerTeam(name);
+        scoreboardTeam = TeamsHUD.getScoreboard().getPlayerTeam(name);
         if (scoreboardTeam == null) {
-            scoreboardTeam = TeamsHUDFabric.getScoreboard().addPlayerTeam(name);
+            scoreboardTeam = TeamsHUD.getScoreboard().addPlayerTeam(name);
         }
     }
 
@@ -99,7 +99,7 @@ public class Team extends net.minecraft.world.scores.Team {
         if (sendPackets) {
             PacketHandler.INSTANCE.sendTo(new TeamInitPacket(name, playerHasPermissions(player)), player);
             if (onlinePlayers.size() == 1) {
-                var players = TeamsHUDFabric.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
+                var players = TeamsHUD.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
                 PacketHandler.INSTANCE.sendTo(new TeamDataPacket(TeamDataPacket.Type.ONLINE, name), players);
             }
             var players = getOnlinePlayers().toArray(ServerPlayer[]::new);
@@ -126,7 +126,7 @@ public class Team extends net.minecraft.world.scores.Team {
         // Packets
         if (sendPackets) {
             if (isEmpty()) {
-                var players = TeamsHUDFabric.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
+                var players = TeamsHUD.getServer().getPlayerList().getPlayers().toArray(ServerPlayer[]::new);
                 PacketHandler.INSTANCE.sendTo(new TeamDataPacket(TeamDataPacket.Type.OFFLINE, name), players);
             }
             var players = getOnlinePlayers().toArray(ServerPlayer[]::new);
@@ -138,11 +138,11 @@ public class Team extends net.minecraft.world.scores.Team {
         players.add(player);
         String playerName = getNameFromUUID(player);
         // Scoreboard
-        var playerScoreboardTeam = TeamsHUDFabric.getScoreboard().getPlayersTeam(playerName);
+        var playerScoreboardTeam = TeamsHUD.getScoreboard().getPlayersTeam(playerName);
         if (playerScoreboardTeam == null || !playerScoreboardTeam.isAlliedTo(scoreboardTeam)) {
-            TeamsHUDFabric.getScoreboard().addPlayerToTeam(playerName, scoreboardTeam);
+            TeamsHUD.getScoreboard().addPlayerToTeam(playerName, scoreboardTeam);
         }
-        var playerEntity = TeamsHUDFabric.getServer().getPlayerList().getPlayer(player);
+        var playerEntity = TeamsHUD.getServer().getPlayerList().getPlayer(player);
         if (playerEntity != null) {
             // Packets
             PacketHandler.INSTANCE.sendTo(new TeamUpdatePacket(name, playerName, TeamUpdatePacket.Action.JOINED, true), playerEntity);
@@ -162,12 +162,12 @@ public class Team extends net.minecraft.world.scores.Team {
         players.remove(player);
         String playerName = getNameFromUUID(player);
         // Scoreboard
-        var playerScoreboardTeam = TeamsHUDFabric.getScoreboard().getPlayersTeam(playerName);
+        var playerScoreboardTeam = TeamsHUD.getScoreboard().getPlayersTeam(playerName);
         if (playerScoreboardTeam != null && playerScoreboardTeam.isAlliedTo(scoreboardTeam)) {
-            TeamsHUDFabric.getScoreboard().removePlayerFromTeam(playerName, scoreboardTeam);
+            TeamsHUD.getScoreboard().removePlayerFromTeam(playerName, scoreboardTeam);
         }
         // Packets
-        var playerEntity = TeamsHUDFabric.getServer().getPlayerList().getPlayer(player);
+        var playerEntity = TeamsHUD.getServer().getPlayerList().getPlayer(player);
         if (playerEntity != null) {
             playerOffline(playerEntity, true);
             PacketHandler.INSTANCE.sendTo(new TeamClearPacket(), playerEntity);
@@ -178,7 +178,7 @@ public class Team extends net.minecraft.world.scores.Team {
     }
 
     private String getNameFromUUID(UUID id) {
-        return TeamsHUDFabric.getServer().getProfileCache().get(id).map(GameProfile::getName).orElseThrow();
+        return TeamsHUD.getServer().getProfileCache().get(id).map(GameProfile::getName).orElseThrow();
     }
 
     static Team fromNBT(CompoundTag compound) {
@@ -199,7 +199,7 @@ public class Team extends net.minecraft.world.scores.Team {
         ListTag advancements = compound.getList("advancement", Tag.TAG_STRING);
         for (var adv : advancements) {
             ResourceLocation id = ResourceLocation.tryParse(adv.getAsString());
-            team.addAdvancement(TeamsHUDFabric.getServer().getAdvancements().getAdvancement(id));
+            team.addAdvancement(TeamsHUD.getServer().getAdvancements().getAdvancement(id));
         }
 
         return team;

@@ -1,5 +1,6 @@
 package com.t2pellet.teams.network.packets;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
@@ -27,7 +28,7 @@ public class TeamJoinPacket extends ServerPacket {
     @Override
     public void execute() {
         UUID id = tag.getUUID(ID_KEY);
-        ServerPlayer player = TeamsHUDFabric.getServer().getPlayerList().getPlayer(id);
+        ServerPlayer player = TeamsHUD.getServer().getPlayerList().getPlayer(id);
         String teamName = tag.getString(TEAM_KEY);
         Team team = TeamDB.INSTANCE.getTeam(teamName);
         try {

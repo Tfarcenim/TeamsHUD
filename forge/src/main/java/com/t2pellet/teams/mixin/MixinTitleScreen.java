@@ -14,7 +14,7 @@ public class MixinTitleScreen {
     @Inject(at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info) {
 
-        TeamsHUD.LOG.info("This line is printed by an example mod mixin from Forge!");
-        TeamsHUD.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
+        TeamsHUD.LOGGER.info("This line is printed by an example mod mixin from Forge!");
+        TeamsHUD.LOGGER.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }
