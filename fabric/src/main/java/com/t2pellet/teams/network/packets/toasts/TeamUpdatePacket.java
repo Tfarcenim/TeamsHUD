@@ -1,6 +1,5 @@
 package com.t2pellet.teams.network.packets.toasts;
 
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.ui.toast.ToastJoin;
 import com.t2pellet.teams.client.ui.toast.ToastLeave;
 import com.t2pellet.teams.network.ClientPacket;
@@ -41,8 +40,8 @@ public class TeamUpdatePacket extends ClientPacket {
         boolean isLocal = tag.getBoolean(LOCAL_KEY);
 
         switch (action) {
-            case JOINED -> TeamsModClient.client.getToasts().addToast(new ToastJoin(team, player, isLocal));
-            case LEFT -> TeamsModClient.client.getToasts().addToast(new ToastLeave(team, player, isLocal));
+            case JOINED -> Minecraft.getInstance().getToasts().addToast(new ToastJoin(team, player, isLocal));
+            case LEFT -> Minecraft.getInstance().getToasts().addToast(new ToastLeave(team, player, isLocal));
         }
     }
 }

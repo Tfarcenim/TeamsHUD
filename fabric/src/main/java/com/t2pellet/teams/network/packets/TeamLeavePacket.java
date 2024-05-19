@@ -29,7 +29,7 @@ public class TeamLeavePacket extends ServerPacket {
         try {
             TeamDB.INSTANCE.removePlayerFromTeam(player);
         } catch (Team.TeamException ex) {
-            TeamsHUDFabric.LOGGER.error(ex.getMessage());
+            TeamsHUD.LOGGER.error(ex.getMessage());
         }
     }
 }

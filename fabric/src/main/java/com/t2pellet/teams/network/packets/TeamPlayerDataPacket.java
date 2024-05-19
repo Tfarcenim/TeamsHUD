@@ -3,7 +3,6 @@ package com.t2pellet.teams.network.packets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.network.ClientPacket;
 import net.fabricmc.api.EnvType;
@@ -81,7 +80,7 @@ public class TeamPlayerDataPacket extends ClientPacket {
                 if (!skinVal.isEmpty()) {
                     GameProfile dummy = new GameProfile(UUID.randomUUID(), "");
                     dummy.getProperties().put("textures", new Property("textures", skinVal, skinSig));
-                    TeamsModClient.client.getSkinManager().registerSkins(dummy, (type, id, texture) -> {
+                    Minecraft.getInstance().getSkinManager().registerSkins(dummy, (type, id, texture) -> {
                         if (type == MinecraftProfileTexture.Type.SKIN) {
                             ClientTeam.INSTANCE.addPlayer(uuid, name, id, health, hunger);
                         }

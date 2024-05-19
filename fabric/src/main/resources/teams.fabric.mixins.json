@@ -4,11 +4,12 @@
   "package": "com.t2pellet.teams.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "ServerPlayerMixin",
-    "AdvancementMixin"
+    "AdvancementMixin",
+    "ServerPlayerMixin"
   ],
   "client": [
     "InventoryScreenMixin",
+    "MinecraftMixin",
     "TabHudMixin"
   ],
   "injectors": {

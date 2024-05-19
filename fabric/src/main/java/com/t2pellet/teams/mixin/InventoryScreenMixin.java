@@ -1,7 +1,6 @@
 package com.t2pellet.teams.mixin;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.client.ui.menu.TeamsLonelyScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsMainScreen;
@@ -28,14 +27,14 @@ public class InventoryScreenMixin extends Screen {
 
     @Inject(at = @At("TAIL"), method = "init")
     private void init(CallbackInfo info) {
-        if (!TeamsModClient.client.gameMode.hasInfiniteItems()) {
+        if (!minecraft.gameMode.hasInfiniteItems()) {
             InventoryScreenAccessor screen = ((InventoryScreenAccessor) this);
             addRenderableWidget(new ImageButton(screen.getX() + screen.getBackgroundWidth() - 19, screen.getY() + 4, 15, 14, 0, 0, 13, TEAMS_BUTTON_TEXTURE, (button) -> {
                 if (ClientTeam.INSTANCE.isInTeam()) {
-                    TeamsModClient.client.setScreen(new TeamsMainScreen(TeamsModClient.client.screen));
+                    minecraft.setScreen(new TeamsMainScreen(minecraft.screen));
 
                 } else {
-                    TeamsModClient.client.setScreen(new TeamsLonelyScreen(TeamsModClient.client.screen));
+                    minecraft.setScreen(new TeamsLonelyScreen(minecraft.screen));
                 }
             }));
         }

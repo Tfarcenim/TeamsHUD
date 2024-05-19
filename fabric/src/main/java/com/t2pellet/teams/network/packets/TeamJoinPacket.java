@@ -34,8 +34,8 @@ public class TeamJoinPacket extends ServerPacket {
         try {
             TeamDB.INSTANCE.addPlayerToTeam(player, team);
         } catch (Team.TeamException ex) {
-            TeamsHUDFabric.LOGGER.error("Failed to join team: " + teamName);
-            TeamsHUDFabric.LOGGER.error(ex.getMessage());
+            TeamsHUD.LOGGER.error("Failed to join team: " + teamName);
+            TeamsHUD.LOGGER.error(ex.getMessage());
         }
     }
 }

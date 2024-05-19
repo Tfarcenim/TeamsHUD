@@ -1,6 +1,5 @@
 package com.t2pellet.teams.network.packets.toasts;
 
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.ui.toast.ToastInviteSent;
 import com.t2pellet.teams.network.ClientPacket;
 import net.fabricmc.api.EnvType;
@@ -27,6 +26,6 @@ public class TeamInviteSentPacket extends ClientPacket {
     public void execute() {
         String team = tag.getString(TEAM_KEY);
         String name = tag.getString(NAME_KEY);
-        TeamsModClient.client.getToasts().addToast(new ToastInviteSent(team, name));
+        Minecraft.getInstance().getToasts().addToast(new ToastInviteSent(team, name));
     }
 }

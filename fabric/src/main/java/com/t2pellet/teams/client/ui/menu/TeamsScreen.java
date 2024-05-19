@@ -2,9 +2,7 @@ package com.t2pellet.teams.client.ui.menu;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.core.ClientTeam;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -13,14 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 public abstract class TeamsScreen extends Screen {
 
     public final Screen parent;
-    protected final Minecraft minecraft;
     protected int x;
     protected int y;
     protected boolean inTeam;
 
     public TeamsScreen(Screen parent, Component title) {
         super(title);
-        minecraft = TeamsModClient.client;
         this.parent = parent;
         inTeam = ClientTeam.INSTANCE.isInTeam();
     }

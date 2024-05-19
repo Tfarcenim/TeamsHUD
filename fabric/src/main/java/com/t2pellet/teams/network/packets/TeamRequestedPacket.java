@@ -1,6 +1,5 @@
 package com.t2pellet.teams.network.packets;
 
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.client.ui.toast.ToastRequested;
 import com.t2pellet.teams.network.ClientPacket;
@@ -30,6 +29,6 @@ public class TeamRequestedPacket extends ClientPacket {
     public void execute() {
         String name = tag.getString(NAME_KEY);
         UUID id = tag.getUUID(ID_KEY);
-        TeamsModClient.client.getToasts().addToast(new ToastRequested(ClientTeam.INSTANCE.getName(), name, id));
+        Minecraft.getInstance().getToasts().addToast(new ToastRequested(ClientTeam.INSTANCE.getName(), name, id));
     }
 }

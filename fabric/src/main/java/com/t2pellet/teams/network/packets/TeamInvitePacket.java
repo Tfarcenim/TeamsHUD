@@ -1,7 +1,6 @@
 package com.t2pellet.teams.network.packets;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
@@ -36,12 +35,12 @@ public class TeamInvitePacket extends ServerPacket {
 
         Team team = ((IHasTeam) fromPlayer).getTeam();
         if (team == null) {
-            TeamsHUDFabric.LOGGER.error(fromPlayer.getName().getString() + " tried inviting " + toPlayer.getName().getString() + " but they are not in a team..");
+            TeamsHUD.LOGGER.error(fromPlayer.getName().getString() + " tried inviting " + toPlayer.getName().getString() + " but they are not in a team..");
         } else {
             try {
                 TeamDB.INSTANCE.invitePlayerToTeam(toPlayer, team);
             } catch (Team.TeamException e) {
-                TeamsHUDFabric.LOGGER.error(e.getMessage());
+                TeamsHUD.LOGGER.error(e.getMessage());
             }
         }
     }

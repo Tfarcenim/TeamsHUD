@@ -6,6 +6,8 @@ import com.t2pellet.teams.client.ui.toast.ToastInvited;
 import com.t2pellet.teams.client.ui.toast.ToastRequested;
 import com.t2pellet.teams.network.PacketHandler;
 import com.t2pellet.teams.network.packets.TeamJoinPacket;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.impl.client.keybinding.KeyBindingRegistryImpl;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.Toast;
@@ -30,7 +32,7 @@ public class TeamsKeys {
         }
 
         public void register() {
-            TeamsHUDClient.registerKeybinding(keyBinding);
+            KeyBindingHelper.registerKeyBinding(keyBinding);
         }
 
         public String getLocalizedName() {
@@ -70,8 +72,8 @@ public class TeamsKeys {
     });
 
     public static final TeamsKey TOGGLE_HUD = new TeamsKey("key.teams.toggle_hud", GLFW.GLFW_KEY_B, client -> {
-        TeamsModClient.compass.enabled = !TeamsModClient.compass.enabled;
-        TeamsModClient.status.enabled = !TeamsModClient.status.enabled;
+        TeamsHUDClientFabric.compass.enabled = !TeamsHUDClientFabric.compass.enabled;
+        TeamsHUDClientFabric.status.enabled = !TeamsHUDClientFabric.status.enabled;
     });
 
     static final TeamsKey[] KEYS = {

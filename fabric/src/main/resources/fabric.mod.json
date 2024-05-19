@@ -21,7 +21,7 @@
       "com.t2pellet.teams.TeamsHUDFabric"
     ],
     "client": [
-      "com.t2pellet.teams.client.TeamsModClient"
+      "com.t2pellet.teams.client.TeamsHUDClientFabric"
     ]
   },
   "mixins": [

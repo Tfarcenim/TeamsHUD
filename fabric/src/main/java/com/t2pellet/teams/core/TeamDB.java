@@ -109,7 +109,7 @@ public class TeamDB {
             try {
                 addTeam(Team.fromNBT((CompoundTag) tag));
             } catch (Team.TeamException ex) {
-                TeamsHUDFabric.LOGGER.error("Failed to load team from NBT" + ex.getMessage());
+                TeamsHUD.LOGGER.error("Failed to load team from NBT" + ex.getMessage());
             }
         }
     }

@@ -36,10 +36,10 @@ public class TeamKickPacket extends ServerPacket {
             try {
                 TeamDB.INSTANCE.removePlayerFromTeam(kicked);
             } catch (Team.TeamException ex) {
-                TeamsHUDFabric.LOGGER.error(ex.getMessage());
+                TeamsHUD.LOGGER.error(ex.getMessage());
             }
         } else {
-            TeamsHUDFabric.LOGGER.error("Received packet to kick player, but the sender did not have permissions");
+            TeamsHUD.LOGGER.error("Received packet to kick player, but the sender did not have permissions");
         }
     }
 }

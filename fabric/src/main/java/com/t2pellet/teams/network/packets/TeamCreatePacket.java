@@ -31,7 +31,7 @@ public class TeamCreatePacket extends ServerPacket {
         try {
             TeamDB.INSTANCE.addTeam(tag.getString(TEAM_KEY), player);
         } catch (Team.TeamException e) {
-            TeamsHUDFabric.LOGGER.error(e.getMessage());
+            TeamsHUD.LOGGER.error(e.getMessage());
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.t2pellet.teams.client.core;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.TeamsHUDFabric;
-import com.t2pellet.teams.client.TeamsModClient;
 import com.t2pellet.teams.client.ui.menu.TeamsLonelyScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsMainScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsScreen;
@@ -50,7 +48,7 @@ class ClientTeamImpl implements ClientTeam {
 
     @Override
     public boolean isTeamEmpty() {
-        return teammates.size() == 0 || (teammates.size() == 1 && teammates.get(TeamsModClient.client.player.getUUID()) != null);
+        return teammates.size() == 0 || (teammates.size() == 1 && teammates.get(client.player.getUUID()) != null);
     }
 
     @Override
