@@ -56,7 +56,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public void sendToClient(S2CModPacket msg, ServerPlayer player) {
+    public <MSG extends S2CModPacket<MSG>> void sendToClient(S2CModPacket<MSG> msg, ServerPlayer player) {
         FriendlyByteBuf buf = PacketByteBufs.create();
         msg.write(buf);
         ServerPlayNetworking.send(player, msg.id().id(), buf);
