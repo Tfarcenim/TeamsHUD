@@ -1,9 +1,6 @@
 package com.t2pellet.teams.network;
 
 import com.t2pellet.teams.network.client.*;
-import com.t2pellet.teams.network.client.S2CTeamInvitedPacket;
-import com.t2pellet.teams.network.client.S2CTeamInviteSentPacket;
-import com.t2pellet.teams.network.client.S2CTeamInitPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 

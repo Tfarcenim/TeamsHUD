@@ -22,7 +22,7 @@ public class TeamsHUDFabric implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		TeamsHUD.LOGGER.info("Teams mod init!");
+		TeamsHUD.LOGGER.info("Teams fabric mod init!");
 
 		ServerLifecycleEvents.SERVER_STARTED.register(TeamsHUD::onServerStarted);
 		ServerLifecycleEvents.SERVER_STOPPED.register(TeamsHUD::onServerStopped);
