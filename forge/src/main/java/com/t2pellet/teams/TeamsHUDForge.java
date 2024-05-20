@@ -1,15 +1,15 @@
 package com.t2pellet.teams;
 
-import com.t2pellet.teams.client.TeamsHUDClient;
 import com.t2pellet.teams.client.TeamsHUDClientForge;
 import com.t2pellet.teams.command.TeamCommand;
 import com.t2pellet.teams.config.TomlConfig;
-import com.t2pellet.teams.network.PacketHandlerForge;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -32,6 +32,8 @@ public class TeamsHUDForge {
         MinecraftForge.EVENT_BUS.addListener(this::login);
         MinecraftForge.EVENT_BUS.addListener(this::logout);
         MinecraftForge.EVENT_BUS.addListener(this::playerClone);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarted);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStopped);
 
         if (FMLEnvironment.dist.isClient()) {
             TeamsHUDClientForge.init(bus);
@@ -57,6 +59,14 @@ public class TeamsHUDForge {
         final Pair<TomlConfig.Server, ForgeConfigSpec> specPair2 = new ForgeConfigSpec.Builder().configure(TomlConfig.Server::new);
         SERVER_SPEC = specPair2.getRight();
         SERVER = specPair2.getLeft();
+    }
+
+    private void onServerStarted(ServerStartedEvent event) {
+        TeamsHUD.onServerStarted(event.getServer());
+    }
+
+    private void onServerStopped(ServerStoppedEvent event) {
+        TeamsHUD.onServerStopped(event.getServer());
     }
 
     private void login(PlayerEvent.PlayerLoggedInEvent event) {

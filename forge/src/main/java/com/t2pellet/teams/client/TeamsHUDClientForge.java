@@ -1,7 +1,9 @@
 package com.t2pellet.teams.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.gui.IIngameOverlay;
 import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +20,7 @@ public class TeamsHUDClientForge {
         bus.addListener(TeamsHUDClientForge::setup);
         MinecraftForge.EVENT_BUS.addListener(TeamsHUDClientForge::clientTick);
         MinecraftForge.EVENT_BUS.addListener(TeamsHUDClientForge::clientDisconnect);
+        MinecraftForge.EVENT_BUS.addListener(TeamsHUDClientForge::addButton);
     }
 
     static void clientDisconnect(ClientPlayerNetworkEvent.LoggedOutEvent event) {
@@ -27,6 +30,10 @@ public class TeamsHUDClientForge {
         if (event.phase == TickEvent.Phase.END) {
             TeamsHUDClient.endClientTick();
         }
+    }
+
+    static void addButton(ScreenEvent.InitScreenEvent.Post event) {
+        TeamsHUDClient.afterScreenInit(Minecraft.getInstance(),event.getScreen(),Minecraft.getInstance().getWindow().getGuiScaledWidth(),Minecraft.getInstance().getWindow().getGuiScaledHeight());
     }
 
     static void setup(FMLClientSetupEvent event) {
