@@ -1,6 +1,7 @@
 package com.t2pellet.teams.platform;
 
 import com.t2pellet.teams.client.TeamsHUDClient;
+import com.t2pellet.teams.config.TomlConfig;
 import com.t2pellet.teams.network.PacketHandlerForge;
 import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CModPacket;
@@ -13,12 +14,11 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class ForgePlatformHelper implements IPlatformHelper {
 
-    protected final ForgeConfig config = new ForgeConfig();
+    protected final MultiloaderConfig config = new TomlConfig();
 
     @Override
     public Platform getPlatform() {
@@ -51,7 +51,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public Config getConfig() {
+    public MultiloaderConfig getConfig() {
         return config;
     }
 
@@ -73,12 +73,12 @@ public class ForgePlatformHelper implements IPlatformHelper {
     int i;
 
     @Override
-    public <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf, MSG> reader) {
-        PacketHandlerForge.INSTANCE.registerMessage(i++, packetLocation.clazz(), writer, reader, PacketHandlerForge.wrapS2C());
+    public <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
+        PacketHandlerForge.INSTANCE.registerMessage(i++, packetLocation.clazz(), MSG::write, reader, PacketHandlerForge.wrapS2C());
     }
 
     @Override
-    public <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf, MSG> reader) {
-        PacketHandlerForge.INSTANCE.registerMessage(i++, packetLocation.clazz(), writer, reader, PacketHandlerForge.wrapC2S());
+    public <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
+        PacketHandlerForge.INSTANCE.registerMessage(i++, packetLocation.clazz(), MSG::write, reader, PacketHandlerForge.wrapC2S());
     }
 }

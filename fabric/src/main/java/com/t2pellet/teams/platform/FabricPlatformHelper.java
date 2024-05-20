@@ -1,5 +1,6 @@
 package com.t2pellet.teams.platform;
 
+import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.network.ClientPacketHandlerFabric;
 import com.t2pellet.teams.network.PacketHandlerFabric;
 import com.t2pellet.teams.network.PacketLocation;
@@ -15,11 +16,10 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class FabricPlatformHelper implements IPlatformHelper {
-    Config config = new FabricConfig();
+    MultiloaderConfig config = TeamsHUDFabric.getConfig();
     @Override
     public Platform getPlatform() {
         return Platform.FABRIC;
@@ -51,7 +51,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public Config getConfig() {
+    public MultiloaderConfig getConfig() {
         return config;
     }
 
@@ -75,12 +75,12 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf, MSG> reader) {
+    public <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
         ClientPlayNetworking.registerGlobalReceiver(packetLocation.id(), ClientPacketHandlerFabric.wrapS2C(reader));
     }
 
     @Override
-    public <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf, MSG> reader) {
+    public <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
         ServerPlayNetworking.registerGlobalReceiver(packetLocation.id(), PacketHandlerFabric.wrapC2S(reader));
     }
 }

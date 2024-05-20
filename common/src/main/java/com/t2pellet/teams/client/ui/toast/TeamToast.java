@@ -2,7 +2,7 @@ package com.t2pellet.teams.client.ui.toast;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.MultiloaderConfig;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.toasts.Toast;
@@ -38,5 +38,5 @@ public abstract class TeamToast implements Toast {
         manager.getMinecraft().font.draw(matrices, title(), 22, 7, ChatFormatting.WHITE.getColor());
         manager.getMinecraft().font.draw(matrices, subTitle(), 22, 18, -16777216);
 
-        return startTime - firstDrawTime < Services.PLATFORM.getConfig().getConfigEntry(Config.toastDuration).getAsInt() * 1000L && team != null ? Visibility.SHOW : Visibility.HIDE;    }
+        return startTime - firstDrawTime < Services.PLATFORM.getConfig().toastDuration() * 1000L && team != null ? Visibility.SHOW : Visibility.HIDE;    }
 }

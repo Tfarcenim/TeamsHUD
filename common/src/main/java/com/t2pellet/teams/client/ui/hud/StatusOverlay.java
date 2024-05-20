@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
-import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.MultiloaderConfig;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -40,7 +40,7 @@ public class StatusOverlay extends GuiComponent {
     }
 
     private void renderStatus(PoseStack matrices, ClientTeam.Teammate teammate) {
-        if (!Services.PLATFORM.getConfig().getConfigEntry(Config.enableStatusHUD).getAsBoolean() || !enabled) return;
+        if (!Services.PLATFORM.getConfig().enableStatusHUD() || !enabled) return;
 
         // Dont render dead players
         if (teammate.getHealth() <= 0) return;

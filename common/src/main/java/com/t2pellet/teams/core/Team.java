@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.mixin.AdvancementAccessor;
 import com.t2pellet.teams.network.client.*;
-import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.MultiloaderConfig;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.Advancement;
@@ -314,12 +314,12 @@ public class Team extends net.minecraft.world.scores.Team {
     public static class Builder {
 
         private final String name;
-        private boolean showFriendlyInvisibles = Services.PLATFORM.getConfig().getConfigEntry(Config.showInvisibleTeammates).getAsBoolean();
-        private boolean friendlyFireAllowed = Services.PLATFORM.getConfig().getConfigEntry(Config.friendlyFireEnabled).getAsBoolean();
-        private Visibility nameTagVisibilityRule = Services.PLATFORM.getConfig().getConfigEntry(Config.nameTagVisibility).getAs(Visibility.class);
-        private ChatFormatting colour = Services.PLATFORM.getConfig().getConfigEntry(Config.colour).getAs(ChatFormatting.class);
-        private Visibility deathMessageVisibilityRule = Services.PLATFORM.getConfig().getConfigEntry(Config.deathMessageVisibility).getAs(Visibility.class);
-        private CollisionRule collisionRule = Services.PLATFORM.getConfig().getConfigEntry(Config.collisionRule).getAs(CollisionRule.class);
+        private boolean showFriendlyInvisibles = Services.PLATFORM.getConfig().showInvisibleTeammates();
+        private boolean friendlyFireAllowed = Services.PLATFORM.getConfig().friendlyFireEnabled();
+        private Visibility nameTagVisibilityRule = Services.PLATFORM.getConfig().nameTagVisibility();
+        private ChatFormatting colour = Services.PLATFORM.getConfig().colour();
+        private Visibility deathMessageVisibilityRule = Services.PLATFORM.getConfig().deathMessageVisibility();
+        private CollisionRule collisionRule = Services.PLATFORM.getConfig().collisionRule();
 
         public Builder(String name) {
             this.name = name;

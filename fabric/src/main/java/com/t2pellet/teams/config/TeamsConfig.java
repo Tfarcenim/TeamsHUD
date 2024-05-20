@@ -1,6 +1,7 @@
 package com.t2pellet.teams.config;
 
 import com.t2pellet.teams.TeamsHUD;
+import com.t2pellet.teams.platform.MultiloaderConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -9,7 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.scores.Team;
 
 @Config(name = TeamsHUD.MODID)
-public class TeamsConfig implements ConfigData {
+public class TeamsConfig implements ConfigData, MultiloaderConfig {
 
     @ConfigEntry.Category("Team Defaults")
     public boolean showInvisibleTeammates = true;
@@ -33,4 +34,48 @@ public class TeamsConfig implements ConfigData {
     @Comment("How long teams toast notifications should last")
     public int toastDuration = 5;
 
+    @Override
+    public boolean showInvisibleTeammates() {
+        return showInvisibleTeammates;
+    }
+
+    @Override
+    public boolean friendlyFireEnabled() {
+        return friendlyFireEnabled;
+    }
+
+    @Override
+    public Team.Visibility nameTagVisibility() {
+        return nameTagVisibility;
+    }
+
+    @Override
+    public ChatFormatting colour() {
+        return colour;
+    }
+
+    @Override
+    public Team.Visibility deathMessageVisibility() {
+        return deathMessageVisibility;
+    }
+
+    @Override
+    public Team.CollisionRule collisionRule() {
+        return collisionRule;
+    }
+
+    @Override
+    public boolean enableCompassHUD() {
+        return enableCompassHUD;
+    }
+
+    @Override
+    public boolean enableStatusHUD() {
+        return enableStatusHUD;
+    }
+
+    @Override
+    public int toastDuration() {
+        return toastDuration;
+    }
 }

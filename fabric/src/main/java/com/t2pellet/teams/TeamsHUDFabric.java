@@ -26,7 +26,7 @@ public class TeamsHUDFabric implements ModInitializer {
 
 		ServerLifecycleEvents.SERVER_STARTED.register(TeamsHUD::onServerStarted);
 		ServerLifecycleEvents.SERVER_STOPPED.register(TeamsHUD::onServerStopped);
-		// Config registration
+		// MultiloaderConfig registration
 		AutoConfig.register(TeamsConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(TeamsConfig.class).getConfig();
 		// Command registration
