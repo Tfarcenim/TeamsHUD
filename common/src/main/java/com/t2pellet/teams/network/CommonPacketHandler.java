@@ -15,7 +15,7 @@ public class CommonPacketHandler {
         Services.PLATFORM.registerServerMessage(C2STeamLeavePacket.ID,C2STeamLeavePacket::write,C2STeamLeavePacket::new);
         Services.PLATFORM.registerServerMessage(C2STeamInvitePacket.ID,C2STeamInvitePacket::write,C2STeamInvitePacket::new);
         Services.PLATFORM.registerServerMessage(C2STeamJoinPacket.ID,C2STeamJoinPacket::write,C2STeamJoinPacket::new);
-        if (Services.PLATFORM.getPlatform() != Platform.FABRIC || Services.PLATFORM.getPhysicalSide() == PhysicalSide.CLIENT) {
+        if (Services.PLATFORM.getPlatform() == Platform.FORGE || Services.PLATFORM.getPhysicalSide() == PhysicalSide.CLIENT) {
             registerClientPackets();
         }
     }

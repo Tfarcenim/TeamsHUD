@@ -10,7 +10,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 import java.util.function.Function;
 
-public class ServerHandler<MSG extends C2SModPacket> implements ServerPlayNetworking.PlayChannelHandler {
+public class ServerHandler<MSG extends C2SModPacket<MSG>> implements ServerPlayNetworking.PlayChannelHandler {
 
     private final Function<FriendlyByteBuf, MSG> packetDecoder;
 

@@ -22,7 +22,6 @@ public class TeamsHUDForge {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        PacketHandlerForge.registerPackets();
     }
 
 }

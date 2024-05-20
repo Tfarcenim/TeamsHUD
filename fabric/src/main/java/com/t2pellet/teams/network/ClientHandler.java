@@ -9,7 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.function.Function;
 
-public class ClientHandler<MSG extends S2CModPacket> implements ClientPlayNetworking.PlayChannelHandler {
+public class ClientHandler<MSG extends S2CModPacket<MSG>> implements ClientPlayNetworking.PlayChannelHandler {
 
     private final Function<FriendlyByteBuf, MSG> decodeFunction;
 
