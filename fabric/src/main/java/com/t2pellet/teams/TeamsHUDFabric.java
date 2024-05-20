@@ -2,11 +2,10 @@ package com.t2pellet.teams;
 
 import com.t2pellet.teams.command.TeamCommand;
 import com.t2pellet.teams.config.TeamsConfig;
-import com.t2pellet.teams.network.PacketHandlerFabric;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -30,7 +29,7 @@ public class TeamsHUDFabric implements ModInitializer {
 		AutoConfig.register(TeamsConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(TeamsConfig.class).getConfig();
 		// Command registration
-		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> TeamCommand.register(dispatcher));
+		CommandRegistrationCallback.EVENT.register((dispatcher,a,b) -> TeamCommand.register(dispatcher));
 		// Event hooks
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ServerPlayer player = handler.player;

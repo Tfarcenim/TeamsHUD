@@ -2,21 +2,18 @@ package com.t2pellet.teams.client.ui.menu;
 
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.client.ui.toast.ToastInviteSent;
+import com.t2pellet.teams.core.ModComponents;
 import com.t2pellet.teams.network.server.C2STeamInvitePacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class TeamsInviteScreen extends TeamsInputScreen {
 
-    private static final Component TITLE_TEXT = new TranslatableComponent("teams.menu.invite.title");
-    private static final Component INVITE_TEXT = new TranslatableComponent("teams.menu.invite.text");
-
 
     public TeamsInviteScreen(Screen parent) {
-        super(parent, TITLE_TEXT);
+        super(parent, ModComponents.INVITE_TITLE_TEXT);
     }
 
     @Override
@@ -26,7 +23,7 @@ public class TeamsInviteScreen extends TeamsInputScreen {
 
     @Override
     protected Component getSubmitText() {
-        return INVITE_TEXT;
+        return ModComponents.INVITE_TEXT2;
     }
 
     @Override

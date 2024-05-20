@@ -8,14 +8,13 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.t2pellet.teams.core.IHasTeam;
+import com.t2pellet.teams.core.ModComponents;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.client.S2CTeamInviteSentPacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 
 import static net.minecraft.commands.Commands.argument;
@@ -70,7 +69,7 @@ public class TeamCommand {
         ServerPlayer newPlayer = EntityArgument.getPlayer(ctx, "player");
         Team team = ((IHasTeam) player).getTeam();
         if (team == null) {
-            throw new SimpleCommandExceptionType(new TranslatableComponent("teams.error.notinteam", player.getName().getString())).create();
+            throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.notinteam", player.getName().getString())).create();
         }
         try {
             TeamDB.INSTANCE.invitePlayerToTeam(newPlayer, team);
@@ -105,18 +104,16 @@ public class TeamCommand {
         String name = ctx.getArgument("name", String.class);
         Team team = TeamDB.INSTANCE.getTeam(name);
         if (team == null) {
-            throw new SimpleCommandExceptionType(new TranslatableComponent("teams.error.invalidteam", name)).create();
+            throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
         TeamDB.INSTANCE.removeTeam(team);
-        ctx.getSource().sendSuccess(new TranslatableComponent("teams.success.remove", name), false);
+        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.remove", name), false);
         return Command.SINGLE_SUCCESS;
     }
 
     private static int listTeams(CommandContext<CommandSourceStack> ctx) {
-        ctx.getSource().sendSuccess(new TranslatableComponent("teams.success.list"), false);
-        TeamDB.INSTANCE.getTeams().forEach(team -> {
-            ctx.getSource().sendSuccess(new TextComponent(team.getName()), false);
-        });
+        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.list"), false);
+        TeamDB.INSTANCE.getTeams().forEach(team -> ctx.getSource().sendSuccess(ModComponents.literal(team.getName()), false));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -124,9 +121,9 @@ public class TeamCommand {
         String name = ctx.getArgument("name", String.class);
         Team team = TeamDB.INSTANCE.getTeam(name);
         if (team == null) {
-            throw new SimpleCommandExceptionType(new TranslatableComponent("teams.error.invalidteam", name)).create();
+            throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
-        ctx.getSource().sendSuccess(new TranslatableComponent("teams.success.info", name), false);
+        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.info", name), false);
         team.getOnlinePlayers().forEach(player -> {
             ctx.getSource().sendSuccess(player.getName(), false);
         });

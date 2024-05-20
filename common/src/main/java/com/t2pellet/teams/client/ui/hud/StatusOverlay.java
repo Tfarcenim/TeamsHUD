@@ -4,14 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
-import com.t2pellet.teams.platform.MultiloaderConfig;
+import com.t2pellet.teams.core.ModComponents;
 import com.t2pellet.teams.platform.Services;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
 import java.util.List;
 
 public class StatusOverlay extends GuiComponent {
@@ -52,13 +52,13 @@ public class StatusOverlay extends GuiComponent {
         String health = String.valueOf(Math.round(teammate.getHealth()));
         RenderSystem.setShaderTexture(0, ICONS);
         blit(matrices, posX + 20, posY, 0, 0, 9, 9);
-        drawString(matrices, client.font, new TextComponent(health), posX + 32, posY, Color.WHITE.getRGB());
+        drawString(matrices, client.font, ModComponents.literal(health), posX + 32, posY, ChatFormatting.WHITE.getColor());
 
         // Hunger
         String hunger = String.valueOf(teammate.getHunger());
         RenderSystem.setShaderTexture(0, ICONS);
         blit(matrices, posX + 46, posY, 9, 0, 9, 9);
-        drawString(matrices, client.font, new TextComponent(hunger), posX + 58, posY, Color.WHITE.getRGB());
+        drawString(matrices, client.font, ModComponents.literal(hunger), posX + 58, posY, ChatFormatting.WHITE.getColor());
 
         // Draw skin
         RenderSystem.setShaderTexture(0, teammate.skin);
@@ -68,7 +68,7 @@ public class StatusOverlay extends GuiComponent {
         matrices.popPose();
 
         // Draw name
-        drawString(matrices, client.font, new TextComponent(teammate.name), (int) Math.round(client.getWindow().getGuiScaledWidth() * 0.002) + 20, posY - 15, Color.WHITE.getRGB());
+        drawString(matrices, client.font, Component.literal(teammate.name), (int) Math.round(client.getWindow().getGuiScaledWidth() * 0.002) + 20, posY - 15, ChatFormatting.WHITE.getColor());
 
         // Update count & offset
         offsetY += 46;

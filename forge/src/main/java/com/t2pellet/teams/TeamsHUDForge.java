@@ -70,15 +70,15 @@ public class TeamsHUDForge {
     }
 
     private void login(PlayerEvent.PlayerLoggedInEvent event) {
-        TeamsHUD.playerConnect((ServerPlayer) event.getPlayer());
+        TeamsHUD.playerConnect((ServerPlayer) event.getEntity());
     }
 
     private void logout(PlayerEvent.PlayerLoggedOutEvent event) {
-        TeamsHUD.playerDisconnect((ServerPlayer) event.getPlayer());
+        TeamsHUD.playerDisconnect((ServerPlayer) event.getEntity());
     }
 
     private void playerClone(PlayerEvent.Clone event) {
-        TeamsHUD.playerClone((ServerPlayer) event.getOriginal(), (ServerPlayer) event.getPlayer(),!event.isWasDeath());
+        TeamsHUD.playerClone((ServerPlayer) event.getOriginal(), (ServerPlayer) event.getEntity(),!event.isWasDeath());
     }
 
     private void registerCommand(RegisterCommandsEvent event) {

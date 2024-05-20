@@ -11,8 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.Toast;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.Optional;
-
 public class TeamsKeys {
 
     public static class TeamsKey {
@@ -36,7 +34,7 @@ public class TeamsKeys {
         }
 
         public String getLocalizedName() {
-            return keyBinding.getTranslatedKeyMessage().getContents();
+            return keyBinding.getTranslatedKeyMessage().getString();
         }
 
         final KeyMapping keyBinding;

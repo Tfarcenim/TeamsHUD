@@ -2,12 +2,11 @@ package com.t2pellet.teams.client.ui.menu;
 
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
+import com.t2pellet.teams.core.ModComponents;
 import com.t2pellet.teams.network.server.C2STeamLeavePacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class TeamsMainScreen extends TeamsScreen {
@@ -15,12 +14,9 @@ public class TeamsMainScreen extends TeamsScreen {
     static final int WIDTH = 267;
     static final int HEIGHT = 183;
     private static final ResourceLocation TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/screen_background.png");
-    private static final Component INVITE_TEXT = new TranslatableComponent("teams.menu.invite");
-    private static final Component LEAVE_TEXT = new TranslatableComponent("teams.menu.leave");
-    private static final Component GO_BACK_TEXT = new TranslatableComponent("teams.menu.return");
 
     public TeamsMainScreen(Screen parent) {
-        super(parent, new TranslatableComponent("teams.menu.title"));
+        super(parent, ModComponents.TEAMS_MENU_TITLE);
     }
 
     @Override
@@ -42,14 +38,14 @@ public class TeamsMainScreen extends TeamsScreen {
             yPos += 24;
         }
         // Add menu buttons
-        addRenderableWidget(new Button(this.width / 2  - 125, y + HEIGHT - 30, 80, 20, LEAVE_TEXT, button -> {
+        addRenderableWidget(new Button(this.width / 2  - 125, y + HEIGHT - 30, 80, 20, ModComponents.LEAVE_TEXT, button -> {
             Services.PLATFORM.sendToServer(new C2STeamLeavePacket());
             minecraft.setScreen(new TeamsLonelyScreen(parent));
         }));
-        addRenderableWidget(new Button(this.width / 2  - 40, y + HEIGHT - 30, 80, 20, INVITE_TEXT, button -> {
+        addRenderableWidget(new Button(this.width / 2  - 40, y + HEIGHT - 30, 80, 20, ModComponents.INVITE_TEXT, button -> {
             minecraft.setScreen(new TeamsInviteScreen(this));
         }));
-        addRenderableWidget(new Button(this.width / 2  + 45, y + HEIGHT - 30, 80, 20, GO_BACK_TEXT, button -> {
+        addRenderableWidget(new Button(this.width / 2  + 45, y + HEIGHT - 30, 80, 20, ModComponents.GO_BACK_TEXT, button -> {
             minecraft.setScreen(parent);
         }));
     }

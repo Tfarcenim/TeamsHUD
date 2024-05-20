@@ -7,7 +7,6 @@ import com.t2pellet.teams.platform.Services;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +31,7 @@ public class TeamDB {
 
     public void addTeam(Team team) throws Team.TeamException {
         if (teams.containsKey(team.getName())) {
-            throw new Team.TeamException(new TranslatableComponent("teams.error.duplicateteam"));
+            throw new Team.TeamException(ModComponents.DUPLICATE_TEAM);
         }
         teams.put(team.getName(), team);
         List<ServerPlayer> players = TeamsHUD.getServer().getPlayerList().getPlayers();
@@ -41,7 +40,7 @@ public class TeamDB {
 
     public Team addTeam(String name, @Nullable ServerPlayer creator) throws Team.TeamException {
         if (creator != null && ((IHasTeam) creator).hasTeam()) {
-            throw new Team.TeamException(new TranslatableComponent("teams.error.alreadyinteam", creator.getName().getString()));
+            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", creator.getName().getString()));
         }
         Team team = new Team.Builder(name).complete();
         addTeam(team);
@@ -79,14 +78,14 @@ public class TeamDB {
 
     public void invitePlayerToTeam(ServerPlayer player, Team team) throws Team.TeamException {
         if (((IHasTeam) player).hasTeam()) {
-            throw new Team.TeamException(new TranslatableComponent("teams.error.alreadyinteam", player.getName().getString()));
+            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName().getString()));
         }
         Services.PLATFORM.sendToClient(new S2CTeamInvitedPacket(team), player);
     }
 
     public void addPlayerToTeam(ServerPlayer player, Team team) throws Team.TeamException {
         if (((IHasTeam) player).hasTeam()) {
-            throw new Team.TeamException(new TranslatableComponent("teams.error.alreadyinteam", player.getName()));
+            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName()));
         }
         team.addPlayer(player);
     }
@@ -94,7 +93,7 @@ public class TeamDB {
     public void removePlayerFromTeam(ServerPlayer player) throws Team.TeamException {
         Team playerTeam = ((IHasTeam) player).getTeam();
         if (playerTeam == null) {
-            throw new Team.TeamException(new TranslatableComponent("teams.error.notinteam", player.getName().getString()));
+            throw new Team.TeamException(ModComponents.translatable("teams.error.notinteam", player.getName().getString()));
         }
         playerTeam.removePlayer(player);
         if (playerTeam.isEmpty()) {
