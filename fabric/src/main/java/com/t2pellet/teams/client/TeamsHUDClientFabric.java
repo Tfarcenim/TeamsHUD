@@ -38,7 +38,5 @@ public class TeamsHUDClientFabric implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> TeamsHUDClient.clientDisconnect());
 
         ScreenEvents.AFTER_INIT.register(TeamsHUDClient::afterScreenInit);
-
-        ClientPacketHandlerFabric.registerPackets();
     }
 }

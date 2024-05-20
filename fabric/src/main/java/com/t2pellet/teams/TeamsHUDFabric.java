@@ -43,7 +43,6 @@ public class TeamsHUDFabric implements ModInitializer {
 			TeamsHUD.playerDisconnect(player);
 		});
 		ServerPlayerEvents.COPY_FROM.register(TeamsHUD::playerClone);
-		PacketHandlerFabric.registerPackets();
 		TeamsHUD.init();
 	}
 }

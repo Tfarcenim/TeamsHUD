@@ -3,12 +3,13 @@ package com.t2pellet.teams.network.client;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.ui.toast.ToastJoin;
 import com.t2pellet.teams.client.ui.toast.ToastLeave;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamUpdatePacket implements S2CModPacket {
+public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
 
     public enum Action {
         JOINED,
@@ -38,10 +39,10 @@ public class S2CTeamUpdatePacket implements S2CModPacket {
         to.writeNbt(tag);
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_update");
+    public static final PacketLocation<S2CTeamUpdatePacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_update"), S2CTeamUpdatePacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<S2CTeamUpdatePacket> id() {
         return ID;
     }
 

@@ -4,13 +4,14 @@ import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
 
-public class C2STeamInvitePacket implements C2SModPacket {
+public class C2STeamInvitePacket implements C2SModPacket<C2STeamInvitePacket> {
 
 
     String to;
@@ -27,10 +28,10 @@ public class C2STeamInvitePacket implements C2SModPacket {
         to.writeUtf(this.to);
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_invite");
+    public static final PacketLocation<C2STeamInvitePacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_invite"),C2STeamInvitePacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<C2STeamInvitePacket> id() {
         return ID;
     }
 

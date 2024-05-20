@@ -1,5 +1,6 @@
 package com.t2pellet.teams.platform.services;
 
+import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CModPacket;
 import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.Config;
@@ -7,7 +8,6 @@ import com.t2pellet.teams.platform.PhysicalSide;
 import com.t2pellet.teams.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
@@ -51,17 +51,17 @@ public interface IPlatformHelper {
 
     Config<?> getConfig();
 
-    void sendToClient(S2CModPacket msg, ServerPlayer player);
+    <MSG extends S2CModPacket<MSG>> void sendToClient(S2CModPacket<MSG> msg, ServerPlayer player);
 
-    default void sendToClients(S2CModPacket msg, Collection<ServerPlayer> playerList) {
+    default <MSG extends S2CModPacket<MSG>> void sendToClients(S2CModPacket<MSG> msg, Collection<ServerPlayer> playerList) {
         playerList.forEach(player -> sendToClient(msg,player));
     }
-    void sendToServer(C2SModPacket msg);
+    <MSG extends C2SModPacket<MSG>> void sendToServer(C2SModPacket<MSG> msg);
 
     void registerKeyBinding(KeyMapping keyMapping);
 
-    <MSG extends S2CModPacket> void clientMessage(ResourceLocation id, Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
+    <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
 
-    <MSG extends C2SModPacket> void serverMessage(ResourceLocation id,Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
+    <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
 
 }

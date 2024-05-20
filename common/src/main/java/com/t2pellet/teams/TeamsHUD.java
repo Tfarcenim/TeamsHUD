@@ -2,6 +2,7 @@ package com.t2pellet.teams;
 
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
+import com.t2pellet.teams.network.CommonPacketHandler;
 import com.t2pellet.teams.network.client.S2CTeamDataPacket;
 import com.t2pellet.teams.network.client.S2CTeamPlayerDataPacket;
 import com.t2pellet.teams.platform.Services;
@@ -36,10 +37,11 @@ public class TeamsHUD {
     // code that gets invoked by the entry point of the loader specific projects.
     public static void init() {
         Services.PLATFORM.getConfig().init();
+        registerPackets();
     }
 
     public static void registerPackets() {
-
+        CommonPacketHandler.registerPackets();
     }
 
     public static MinecraftServer getServer() {

@@ -3,6 +3,7 @@ package com.t2pellet.teams.network.client;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.client.ui.toast.ToastRequested;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
 
-public class S2CTeamRequestedPacket implements S2CModPacket {
+public class S2CTeamRequestedPacket implements S2CModPacket<S2CTeamRequestedPacket> {
 
     private static final String NAME_KEY = "playerName";
     private static final String ID_KEY = "playerId";
@@ -30,10 +31,10 @@ public class S2CTeamRequestedPacket implements S2CModPacket {
         to.writeNbt(tag);
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_requested");
+    public static final PacketLocation<S2CTeamRequestedPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_requested"), S2CTeamRequestedPacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<S2CTeamRequestedPacket> id() {
         return ID;
     }
 

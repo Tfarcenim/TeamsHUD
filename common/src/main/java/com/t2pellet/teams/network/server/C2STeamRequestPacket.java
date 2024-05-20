@@ -3,13 +3,14 @@ package com.t2pellet.teams.network.server;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
+import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CTeamRequestedPacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public class C2STeamRequestPacket implements C2SModPacket {
+public class C2STeamRequestPacket implements C2SModPacket<C2STeamRequestPacket> {
 
 
     String name;
@@ -26,10 +27,10 @@ public class C2STeamRequestPacket implements C2SModPacket {
         to.writeUtf(name);
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_request");
+    public static final PacketLocation<C2STeamRequestPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_request"), C2STeamRequestPacket.class);
     @Override
-    public ResourceLocation id() {
-        return null;
+    public PacketLocation<C2STeamRequestPacket> id() {
+        return ID;
     }
 
     @Override

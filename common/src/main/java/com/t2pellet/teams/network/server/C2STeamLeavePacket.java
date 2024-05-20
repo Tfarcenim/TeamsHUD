@@ -3,11 +3,12 @@ package com.t2pellet.teams.network.server;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public class C2STeamLeavePacket implements C2SModPacket {
+public class C2STeamLeavePacket implements C2SModPacket<C2STeamLeavePacket> {
 
 
     public C2STeamLeavePacket() {}
@@ -21,10 +22,10 @@ public class C2STeamLeavePacket implements C2SModPacket {
 
     }
 
-    public static final ResourceLocation ID =  new ResourceLocation(TeamsHUD.MODID,"team_leave");
+    public static final PacketLocation<C2STeamLeavePacket> ID =  new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_leave"), C2STeamLeavePacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<C2STeamLeavePacket> id() {
         return ID;
     }
 

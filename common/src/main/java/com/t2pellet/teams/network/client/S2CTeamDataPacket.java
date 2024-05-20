@@ -2,6 +2,7 @@ package com.t2pellet.teams.network.client;
 
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeamDB;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,7 +10,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamDataPacket implements S2CModPacket {
+public class S2CTeamDataPacket implements S2CModPacket<S2CTeamDataPacket> {
 
     private static final String TEAM_KEY = "teamName";
     private static final String TYPE_KEY = "type";
@@ -58,10 +59,10 @@ public class S2CTeamDataPacket implements S2CModPacket {
         }
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_data_packet");
+    public static final PacketLocation<S2CTeamDataPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_data_packet"),S2CTeamDataPacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<S2CTeamDataPacket> id() {
         return ID;
     }
 }

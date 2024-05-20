@@ -3,12 +3,12 @@ package com.t2pellet.teams.network.client;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.ui.toast.ToastInvited;
 import com.t2pellet.teams.core.Team;
-import com.t2pellet.teams.network.client.S2CModPacket;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamInvitedPacket implements S2CModPacket {
+public class S2CTeamInvitedPacket implements S2CModPacket<S2CTeamInvitedPacket> {
 
     private final String team;
 
@@ -30,10 +30,10 @@ public class S2CTeamInvitedPacket implements S2CModPacket {
         to.writeUtf(team);
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_invited");
+    public static final PacketLocation<S2CTeamInvitedPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_invited"), S2CTeamInvitedPacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<S2CTeamInvitedPacket> id() {
         return ID;
     }
 }

@@ -5,6 +5,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
+import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
 
-public class S2CTeamPlayerDataPacket implements S2CModPacket {
+public class S2CTeamPlayerDataPacket implements S2CModPacket<S2CTeamPlayerDataPacket> {
 
     private static final String ID_KEY = "playerUuid";
     private static final String NAME_KEY = "playerName";
@@ -106,10 +107,10 @@ public class S2CTeamPlayerDataPacket implements S2CModPacket {
         }
     }
 
-    public static final ResourceLocation ID = new ResourceLocation(TeamsHUD.MODID,"team_playerdata");
+    public static final PacketLocation<S2CTeamPlayerDataPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_playerdata"), S2CTeamPlayerDataPacket.class);
 
     @Override
-    public ResourceLocation id() {
+    public PacketLocation<S2CTeamPlayerDataPacket> id() {
         return ID;
     }
 }
