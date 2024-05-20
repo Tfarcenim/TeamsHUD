@@ -18,25 +18,23 @@ public class PacketHandlerForge {
     static int i = 0;
 
     public static void registerPackets() {
-        
+
     }
 
     public static <MSG extends S2CModPacket> void clientMessage(Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader) {
-        INSTANCE.registerMessage(i++, msgClass, writer, reader, wrapS2C());
     }
 
     public static <MSG extends C2SModPacket> void serverMessage(Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader) {
-        INSTANCE.registerMessage(i++, msgClass, writer, reader, wrapC2S());
     }
 
-    private static <MSG extends S2CModPacket> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapS2C() {
+    public static <MSG extends S2CModPacket> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapS2C() {
         return ((msg, contextSupplier) -> {
             contextSupplier.get().enqueueWork(msg::handleClient);
             contextSupplier.get().setPacketHandled(true);
         });
     }
 
-    private static <MSG extends C2SModPacket> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapC2S() {
+    public static <MSG extends C2SModPacket> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapC2S() {
         return ((msg, contextSupplier) -> {
             ServerPlayer player = contextSupplier.get().getSender();
             contextSupplier.get().enqueueWork(() -> msg.handleServer(player));

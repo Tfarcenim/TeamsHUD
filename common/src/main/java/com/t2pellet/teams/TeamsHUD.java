@@ -38,6 +38,10 @@ public class TeamsHUD {
         Services.PLATFORM.getConfig().init();
     }
 
+    public static void registerPackets() {
+
+    }
+
     public static MinecraftServer getServer() {
         return server;
     }

@@ -3,10 +3,16 @@ package com.t2pellet.teams.platform.services;
 import com.t2pellet.teams.network.client.S2CModPacket;
 import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.Config;
+import com.t2pellet.teams.platform.PhysicalSide;
+import com.t2pellet.teams.platform.Platform;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public interface IPlatformHelper {
 
@@ -15,7 +21,8 @@ public interface IPlatformHelper {
      *
      * @return The name of the current platform.
      */
-    String getPlatformName();
+    Platform getPlatform();
+    PhysicalSide getPhysicalSide();
 
     /**
      * Checks if a mod with the given id is loaded.
@@ -52,5 +59,9 @@ public interface IPlatformHelper {
     void sendToServer(C2SModPacket msg);
 
     void registerKeyBinding(KeyMapping keyMapping);
+
+    <MSG extends S2CModPacket> void clientMessage(ResourceLocation id, Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
+
+    <MSG extends C2SModPacket> void serverMessage(ResourceLocation id,Class<MSG> msgClass, BiConsumer<MSG, FriendlyByteBuf> writer, Function<FriendlyByteBuf,MSG> reader);
 
 }

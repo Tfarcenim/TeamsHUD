@@ -28,6 +28,9 @@ public class TeamsHUDClient {
 
     public static final ResourceLocation TEAMS_BUTTON_TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/buttonsmall.png");
 
+    public static void registerClientPackets() {
+
+    }
 
     public static void clientDisconnect() {
         ClientTeam.INSTANCE.reset();
