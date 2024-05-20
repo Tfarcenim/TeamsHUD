@@ -6,7 +6,7 @@ import com.t2pellet.teams.config.TeamsConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FabricConfig<T> implements Config<T> {
+public class FabricConfig implements Config {
 
     protected final Map<String,ConfigEntry<?>> configEntryMap = new HashMap<>();
     @Override
@@ -24,7 +24,7 @@ public class FabricConfig<T> implements Config<T> {
     }
 
     @Override
-    public ConfigEntry<T> getConfigEntry(String id) {
+    public <T> ConfigEntry<T> getConfigEntry(String id) {
         return (ConfigEntry<T>) configEntryMap.get(id);
     }
 }

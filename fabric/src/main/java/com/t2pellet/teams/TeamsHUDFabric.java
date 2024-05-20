@@ -30,9 +30,7 @@ public class TeamsHUDFabric implements ModInitializer {
 		AutoConfig.register(TeamsConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(TeamsConfig.class).getConfig();
 		// Command registration
-		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
-			TeamCommand.register(dispatcher);
-		});
+		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> TeamCommand.register(dispatcher));
 		// Event hooks
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ServerPlayer player = handler.player;

@@ -37,10 +37,6 @@ public class TeamsHUD {
     // code that gets invoked by the entry point of the loader specific projects.
     public static void init() {
         Services.PLATFORM.getConfig().init();
-        registerPackets();
-    }
-
-    public static void registerPackets() {
         CommonPacketHandler.registerPackets();
     }
 

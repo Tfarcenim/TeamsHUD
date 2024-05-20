@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class FabricPlatformHelper implements IPlatformHelper {
-    Config<?> config = new FabricConfig<>();
+    Config config = new FabricConfig();
     @Override
     public Platform getPlatform() {
         return Platform.FABRIC;
@@ -51,7 +51,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public Config<?> getConfig() {
+    public Config getConfig() {
         return config;
     }
 

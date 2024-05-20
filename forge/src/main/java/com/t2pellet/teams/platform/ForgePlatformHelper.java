@@ -1,5 +1,6 @@
 package com.t2pellet.teams.platform;
 
+import com.t2pellet.teams.client.TeamsHUDClient;
 import com.t2pellet.teams.network.PacketHandlerForge;
 import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CModPacket;
@@ -16,6 +17,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class ForgePlatformHelper implements IPlatformHelper {
+
+    protected final ForgeConfig config = new ForgeConfig();
 
     @Override
     public Platform getPlatform() {
@@ -48,23 +51,23 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public Config<?> getConfig() {
-        return null;
+    public Config getConfig() {
+        return config;
     }
 
     @Override
     public <MSG extends S2CModPacket<MSG>> void sendToClient(S2CModPacket<MSG> msg, ServerPlayer player) {
-
+        PacketHandlerForge.sendToClient(msg,player);
     }
 
     @Override
     public <MSG extends C2SModPacket<MSG>> void sendToServer(C2SModPacket<MSG> msg) {
-
+        PacketHandlerForge.sendToServer(msg);
     }
 
     @Override
     public void registerKeyBinding(KeyMapping keyMapping) {
-
+        TeamsHUDClient.registerKeybinding(keyMapping);
     }
 
     int i;

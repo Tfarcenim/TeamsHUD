@@ -1,6 +1,6 @@
 package com.t2pellet.teams.platform;
 
-public interface Config<T> {
+public interface Config {
 
     String showInvisibleTeammates = "show_invisible_teammates";
     String friendlyFireEnabled = "friendly_fire_enabled";
@@ -14,6 +14,6 @@ public interface Config<T> {
     String toastDuration = "toast_duration";
     void init();
 
-    ConfigEntry<T> getConfigEntry(String id);
+    <T> ConfigEntry<T> getConfigEntry(String id);
 
 }
