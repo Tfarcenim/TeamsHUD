@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class TeamsMainScreen extends TeamsScreen {
 
-    static final int WIDTH = 267;
-    static final int HEIGHT = 183;
+    static final int WIDTH = 256;
+    static final int HEIGHT = 166;
     private static final ResourceLocation TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/screen_background.png");
     private static final Component INVITE_TEXT = new TranslatableComponent("teams.menu.invite");
     private static final Component LEAVE_TEXT = new TranslatableComponent("teams.menu.leave");
@@ -69,10 +69,6 @@ public class TeamsMainScreen extends TeamsScreen {
         return TEXTURE;
     }
 
-    @Override
-    protected float getBackgroundScale() {
-        return 1.1F;
-    }
 
     public void refresh() {
         if (!ClientTeam.INSTANCE.isInTeam()) {

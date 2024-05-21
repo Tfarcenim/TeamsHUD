@@ -57,11 +57,6 @@ public abstract class TeamsInputScreen extends TeamsScreen {
         return TEXTURE;
     }
 
-    @Override
-    protected float getBackgroundScale() {
-        return 1.0F;
-    }
-
     protected abstract Component getSubmitText();
 
     protected abstract void onSubmit(Button widget);

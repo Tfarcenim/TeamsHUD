@@ -1,11 +1,12 @@
 package com.t2pellet.teams.client.ui.menu;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.ui.toast.ToastRequest;
 import com.t2pellet.teams.network.server.C2STeamRequestPacket;
 import com.t2pellet.teams.platform.Services;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ImageButton;
@@ -15,8 +16,6 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-
-import java.awt.*;
 
 public class TeamEntry extends GuiComponent implements Widget, GuiEventListener, NarratableEntry {
 
@@ -47,7 +46,7 @@ public class TeamEntry extends GuiComponent implements Widget, GuiEventListener,
         // Background
         renderBackground(matrices);
         // Name
-        client.font.draw(matrices, team, x + 8, y + 12 - (int) (client.font.lineHeight / 2), Color.BLACK.getRGB());
+        client.font.draw(matrices, team, x + 8, y + 12 - (int) (client.font.lineHeight / 2), ChatFormatting.BLACK.getColor());
         // Buttons
         joinButton.render(matrices, mouseX, mouseY, delta);
     }

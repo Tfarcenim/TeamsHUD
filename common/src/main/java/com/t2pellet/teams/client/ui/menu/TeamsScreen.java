@@ -34,8 +34,7 @@ public abstract class TeamsScreen extends Screen {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, getBackgroundTexture());
         matrices.pushPose();
-        matrices.scale(getBackgroundScale(), getBackgroundScale(), getBackgroundScale());
-        blit(matrices, (int) (x / getBackgroundScale()), (int) (y / getBackgroundScale()), 0, 0, (int) (getWidth() / getBackgroundScale()), (int) (getHeight() / getBackgroundScale()));
+        blit(matrices, x, y, 0, 0, getWidth(), getHeight());
         matrices.popPose();
         super.render(matrices, mouseX, mouseY, delta);
     }
@@ -46,6 +45,5 @@ public abstract class TeamsScreen extends Screen {
 
     protected abstract ResourceLocation getBackgroundTexture();
 
-    protected abstract float getBackgroundScale();
 
 }

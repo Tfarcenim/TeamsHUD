@@ -1,15 +1,14 @@
 package com.t2pellet.teams.client.ui.menu;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeamDB;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-
-import java.awt.*;
 
 public class TeamsLonelyScreen extends TeamsScreen {
 
@@ -50,7 +49,7 @@ public class TeamsLonelyScreen extends TeamsScreen {
         if (ClientTeamDB.INSTANCE.getOnlineTeams().isEmpty()) {
             int textWidth = font.width(LONELY_TEXT);
             int textHeight   = font.lineHeight;
-            font.draw(matrices, LONELY_TEXT, (int) ((this.width - textWidth) / 2), y + 24 - (int) (textHeight / 2), Color.BLACK.getRGB());
+            font.draw(matrices, LONELY_TEXT, (this.width - textWidth) / 2, y + 24 - (textHeight / 2), ChatFormatting.BLACK.getColor());
         }
     }
 
@@ -73,8 +72,4 @@ public class TeamsLonelyScreen extends TeamsScreen {
         return TEXTURE;
     }
 
-    @Override
-    protected float getBackgroundScale() {
-        return 1.0F;
-    }
 }
