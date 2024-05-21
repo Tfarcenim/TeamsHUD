@@ -66,9 +66,4 @@ public class TeamsLonelyScreen extends TeamsScreen {
     protected ResourceLocation getBackgroundTexture() {
         return TEXTURE;
     }
-
-    @Override
-    protected float getBackgroundScale() {
-        return 1.0F;
-    }
 }
