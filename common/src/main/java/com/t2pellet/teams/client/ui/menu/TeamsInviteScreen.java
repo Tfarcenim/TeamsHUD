@@ -18,12 +18,6 @@ public class TeamsInviteScreen extends TeamsInputScreen {
     public TeamsInviteScreen(Screen parent) {
         super(parent, TITLE_TEXT);
     }
-
-    @Override
-    protected float getBackgroundScale() {
-        return 1.0F;
-    }
-
     @Override
     protected Component getSubmitText() {
         return INVITE_TEXT;
