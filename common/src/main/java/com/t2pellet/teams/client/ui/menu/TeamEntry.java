@@ -1,24 +1,21 @@
 package com.t2pellet.teams.client.ui.menu;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.ui.toast.ToastRequest;
+import com.t2pellet.teams.core.ModComponents;
 import com.t2pellet.teams.network.server.C2STeamRequestPacket;
 import com.t2pellet.teams.platform.Services;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
-
-public class TeamEntry extends GuiComponent implements Widget, GuiEventListener, NarratableEntry {
+public class TeamEntry extends AbstractWidget {
 
     static final int WIDTH = 244;
     static final int HEIGHT = 24;
@@ -31,6 +28,7 @@ public class TeamEntry extends GuiComponent implements Widget, GuiEventListener,
     private int y;
 
     public TeamEntry(String team, int x, int y) {
+        super(x,y,WIDTH,HEIGHT, ModComponents.literal(team));
         this.client = Minecraft.getInstance();
         this.team = team;
         this.x = x;
@@ -43,20 +41,19 @@ public class TeamEntry extends GuiComponent implements Widget, GuiEventListener,
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         // Background
-        renderBackground(matrices);
+        renderBackground(graphics);
         // Name
-        client.font.draw(matrices, team, x + 8, y + 12 - (int) (client.font.lineHeight / 2), Color.BLACK.getRGB());
+        graphics.drawString(client.font, team, x + 8, y + 12 - (int) (client.font.lineHeight / 2), ChatFormatting.BLACK.getColor());
         // Buttons
-        joinButton.render(matrices, mouseX, mouseY, delta);
+        joinButton.render(graphics, mouseX, mouseY, delta);
     }
 
-    private void renderBackground(PoseStack matrices) {
+    private void renderBackground(GuiGraphics graphics) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        blit(matrices, x, y, 0, 166, WIDTH, HEIGHT);
+        graphics.blit(TEXTURE, x, y, 0, 166, WIDTH, HEIGHT);
     }
 
     @Override
@@ -65,7 +62,8 @@ public class TeamEntry extends GuiComponent implements Widget, GuiEventListener,
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput builder) {
-        // TODO : implement this
+    protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+
     }
+
 }

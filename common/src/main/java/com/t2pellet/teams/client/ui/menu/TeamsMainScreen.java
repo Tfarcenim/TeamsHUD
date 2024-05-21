@@ -27,7 +27,7 @@ public class TeamsMainScreen extends TeamsScreen {
         // Add player buttons
         for (var teammate : ClientTeam.INSTANCE.getTeammates()) {
             boolean local = minecraft.player.getUUID().equals(teammate.id);
-            var entry = new TeammateEntry(this, teammate, xPos, yPos, local);
+            var entry = new TeammateEntry(teammate, xPos, yPos, local);
             addRenderableWidget(entry);
             if (entry.getFavButton() != null) {
                 addWidget(entry.getFavButton());
@@ -38,16 +38,13 @@ public class TeamsMainScreen extends TeamsScreen {
             yPos += 24;
         }
         // Add menu buttons
-        addRenderableWidget(new Button(this.width / 2  - 125, y + HEIGHT - 30, 80, 20, ModComponents.LEAVE_TEXT, button -> {
+        addRenderableWidget(Button.builder(ModComponents.LEAVE_TEXT,button -> {
             Services.PLATFORM.sendToServer(new C2STeamLeavePacket());
             minecraft.setScreen(new TeamsLonelyScreen(parent));
-        }));
-        addRenderableWidget(new Button(this.width / 2  - 40, y + HEIGHT - 30, 80, 20, ModComponents.INVITE_TEXT, button -> {
-            minecraft.setScreen(new TeamsInviteScreen(this));
-        }));
-        addRenderableWidget(new Button(this.width / 2  + 45, y + HEIGHT - 30, 80, 20, ModComponents.GO_BACK_TEXT, button -> {
-            minecraft.setScreen(parent);
-        }));
+        }).bounds(this.width / 2  - 125, y + HEIGHT - 30, 80, 20).build());
+        addRenderableWidget(Button.builder(ModComponents.INVITE_TEXT,button -> minecraft.setScreen(new TeamsInviteScreen(this)))
+                .bounds(this.width / 2  - 40, y + HEIGHT - 30, 80, 20).build());
+        addRenderableWidget(Button.builder(ModComponents.GO_BACK_TEXT, button -> minecraft.setScreen(parent)).bounds(this.width / 2  + 45, y + HEIGHT - 30, 80, 20).build());
     }
 
     @Override

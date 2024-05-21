@@ -12,8 +12,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class TeamsHUDClientForge {
 
-    public static final IGuiOverlay compass = (gui, poseStack, partialTick, width, height) -> TeamsHUDClient.compass.render(poseStack);
-    public static final IGuiOverlay status = (gui, poseStack, partialTick, width, height) -> TeamsHUDClient.status.render(poseStack);
+    public static final IGuiOverlay compass = (gui, graphics, partialTick, width, height) -> TeamsHUDClient.compass.render(graphics);
+    public static final IGuiOverlay status = (gui, graphics, partialTick, width, height) -> TeamsHUDClient.status.render(graphics);
 
     public static void init(IEventBus bus) {
         bus.addListener(TeamsHUDClientForge::setup);

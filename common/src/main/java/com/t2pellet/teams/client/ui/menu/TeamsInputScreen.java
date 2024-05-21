@@ -26,11 +26,9 @@ public abstract class TeamsInputScreen extends TeamsScreen {
     protected void init() {
         super.init();
         inputField = addRenderableWidget(new EditBox(minecraft.font, x + (getWidth() - 100) / 2, y + 10, 100, 20, ModComponents.DEFAULT_TEXT));
-        submitButton = addRenderableWidget(new Button(x + (getWidth() - 100) / 2, y + HEIGHT - 55, 100, 20, getSubmitText(), this::onSubmit));
+        submitButton = addRenderableWidget(Button.builder(getSubmitText(),this::onSubmit).bounds(x + (getWidth() - 100) / 2, y + HEIGHT - 55, 100, 20).build());
         submitButton.active = submitCondition();
-        addRenderableWidget(new Button(x + (getWidth() - 100) / 2, y + HEIGHT - 30, 100, 20, ModComponents.GO_BACK_TEXT, button -> {
-            minecraft.setScreen(parent);
-        }));
+        addRenderableWidget(Button.builder(ModComponents.GO_BACK_TEXT, button -> minecraft.setScreen(parent)).bounds(x + (getWidth() - 100) / 2, y + HEIGHT - 30, 100, 20).build());
     }
 
     @Override

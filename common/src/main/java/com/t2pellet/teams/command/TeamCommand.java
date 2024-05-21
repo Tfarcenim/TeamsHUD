@@ -107,13 +107,13 @@ public class TeamCommand {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
         TeamDB.INSTANCE.removeTeam(team);
-        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.remove", name), false);
+        ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.remove", name), false);
         return Command.SINGLE_SUCCESS;
     }
 
     private static int listTeams(CommandContext<CommandSourceStack> ctx) {
-        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.list"), false);
-        TeamDB.INSTANCE.getTeams().forEach(team -> ctx.getSource().sendSuccess(ModComponents.literal(team.getName()), false));
+        ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.list"), false);
+        TeamDB.INSTANCE.getTeams().forEach(team -> ctx.getSource().sendSuccess(() -> ModComponents.literal(team.getName()), false));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -123,10 +123,8 @@ public class TeamCommand {
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
-        ctx.getSource().sendSuccess(ModComponents.translatable("teams.success.info", name), false);
-        team.getOnlinePlayers().forEach(player -> {
-            ctx.getSource().sendSuccess(player.getName(), false);
-        });
+        ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.info", name), false);
+        team.getOnlinePlayers().forEach(player -> ctx.getSource().sendSuccess(player::getName, false));
         return Command.SINGLE_SUCCESS;
     }
 

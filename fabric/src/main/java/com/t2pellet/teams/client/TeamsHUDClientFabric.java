@@ -12,9 +12,9 @@ public class TeamsHUDClientFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // Register HUDs
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-            TeamsHUDClient.status.render(matrixStack);
-            TeamsHUDClient.compass.render(matrixStack);
+        HudRenderCallback.EVENT.register((graphics, tickDelta) -> {
+            TeamsHUDClient.status.render(graphics);
+            TeamsHUDClient.compass.render(graphics);
         });
 
         // Handle keybinds

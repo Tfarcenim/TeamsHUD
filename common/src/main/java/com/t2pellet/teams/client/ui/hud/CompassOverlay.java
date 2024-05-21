@@ -1,16 +1,14 @@
 package com.t2pellet.teams.client.ui.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.client.core.ClientTeam;
-import com.t2pellet.teams.platform.MultiloaderConfig;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-public class CompassOverlay extends GuiComponent {
+public class CompassOverlay {
 
     private static final int HUD_WIDTH = 182;
     private static final int HUD_HEIGHT = 5;
@@ -20,6 +18,8 @@ public class CompassOverlay extends GuiComponent {
     private static final float MIN_SCALE = 0.2f;
     private static final float MAX_SCALE = 0.4f;
     private static final float MIN_ALPHA = 0.4f;
+
+    static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation("textures/gui/icons.png");
 
     public boolean enabled = true;
     private final Minecraft client;
@@ -33,7 +33,7 @@ public class CompassOverlay extends GuiComponent {
         return isShowing;
     }
 
-    public void render(PoseStack matrices) {
+    public void render(GuiGraphics graphics) {
         if (!Services.PLATFORM.getConfig().enableCompassHUD() || !enabled) {
             isShowing = false;
             return;
@@ -50,20 +50,19 @@ public class CompassOverlay extends GuiComponent {
                 float scaleFactor = calculateScaleFactor(player);
                 if (scaleFactor < minScale) minScale = scaleFactor;
                 double renderFactor = calculateRenderFactor(player, rotationHead);
-                renderHUDHead(matrices, teammate.skin, scaleFactor, renderFactor);
+                renderHUDHead(graphics, teammate.skin, scaleFactor, renderFactor);
                 renderedAnyHead = true;
             }
         }
 
         // Render bar
         if (ClientTeam.INSTANCE.isInTeam() && !ClientTeam.INSTANCE.isTeamEmpty() && renderedAnyHead) {
-            RenderSystem.setShaderTexture(0, GUI_ICONS_LOCATION);
             var x = (client.getWindow().getGuiScaledWidth() - HUD_WIDTH) / 2;
             var y = 5 + HUD_HEIGHT / 2;
             float alpha = (1 - minScale) * (1 - MIN_ALPHA) + MIN_ALPHA;
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
-            blit(matrices, x, y, 0, 74, HUD_WIDTH, HUD_HEIGHT);
+            graphics.blit(GUI_ICONS_LOCATION, x, y, 0, 74, HUD_WIDTH, HUD_HEIGHT);
             RenderSystem.disableBlend();
             isShowing = true;
         } else {
@@ -115,25 +114,24 @@ public class CompassOverlay extends GuiComponent {
         return renderFactor;
     }
 
-    private void renderHUDHead(PoseStack matrices, ResourceLocation skin, float scaleFactor, double renderFactor) {
-        RenderSystem.setShaderTexture(0, skin);
+    private void renderHUDHead(GuiGraphics graphics, ResourceLocation skin, float scaleFactor, double renderFactor) {
         int scaledWidth = client.getWindow().getGuiScaledWidth();
         int x = (int) (scaledWidth / 2 - HUD_WIDTH / 4 + renderFactor * HUD_WIDTH / 2 + 41);
         int y = 5 + HUD_HEIGHT + 4;
         float sizeFactor = scaleFactor * (MAX_SCALE - MIN_SCALE) + MIN_SCALE;
         float alphaFactor = (1 - scaleFactor) * (1 - MIN_ALPHA) + MIN_ALPHA;
-        matrices.pushPose();
+        graphics.pose().pushPose();
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alphaFactor);
-        matrices.scale(sizeFactor, sizeFactor, sizeFactor);
+        graphics.pose().scale(sizeFactor, sizeFactor, sizeFactor);
         if (1 - Math.abs(renderFactor) < Math.min(alphaFactor, 0.6f)) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (float) (1 - Math.abs(renderFactor)));
-            blit(matrices, Math.round(x / sizeFactor), Math.round(y / sizeFactor), 32, 32, 32, 32);
+            graphics.blit(skin, Math.round(x / sizeFactor), Math.round(y / sizeFactor), 32, 32, 32, 32);
         } else {
-            blit(matrices, Math.round(x / sizeFactor), Math.round(y / sizeFactor), 32, 32, 32, 32);
+            graphics.blit(skin, Math.round(x / sizeFactor), Math.round(y / sizeFactor), 32, 32, 32, 32);
         }
         RenderSystem.disableBlend();
-        matrices.popPose();
+        graphics.pose().popPose();
     }
 
 

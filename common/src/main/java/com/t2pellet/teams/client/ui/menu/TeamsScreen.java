@@ -3,6 +3,7 @@ package com.t2pellet.teams.client.ui.menu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.client.core.ClientTeam;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -28,16 +29,15 @@ public abstract class TeamsScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        renderBackground(graphics);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, getBackgroundTexture());
-        matrices.pushPose();
-        matrices.scale(getBackgroundScale(), getBackgroundScale(), getBackgroundScale());
-        blit(matrices, (int) (x / getBackgroundScale()), (int) (y / getBackgroundScale()), 0, 0, (int) (getWidth() / getBackgroundScale()), (int) (getHeight() / getBackgroundScale()));
-        matrices.popPose();
-        super.render(matrices, mouseX, mouseY, delta);
+        graphics.pose().pushPose();
+        graphics.pose().scale(getBackgroundScale(), getBackgroundScale(), getBackgroundScale());
+        graphics.blit(getBackgroundTexture(), (int) (x / getBackgroundScale()), (int) (y / getBackgroundScale()), 0, 0, (int) (getWidth() / getBackgroundScale()), (int) (getHeight() / getBackgroundScale()));
+        graphics.pose().popPose();
+        super.render(graphics, mouseX, mouseY, delta);
     }
 
     protected abstract int getWidth();

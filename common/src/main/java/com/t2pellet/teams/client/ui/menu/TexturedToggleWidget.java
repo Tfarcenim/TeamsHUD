@@ -1,70 +1,43 @@
 package com.t2pellet.teams.client.ui.menu;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class TexturedToggleWidget extends Button {
+import java.util.function.Supplier;
 
-    private final ResourceLocation texture;
-    private final int u;
-    private final int v;
-    private final int hoveredVOffset;
-    private final int textureWidth;
-    private final int textureHeight;
-    private final ToggleCondition condition;
+public class TexturedToggleWidget extends ImageButton {
 
-    public TexturedToggleWidget(int x, int y, int width, int height, int u, int v, ResourceLocation texture, ToggleCondition condition, OnPress pressAction) {
-        this(x, y, width, height, u, v, height, texture, 256, 256, condition, pressAction);
+
+    private final Supplier<Boolean> booleanSupplier;
+
+    public TexturedToggleWidget(int pX, int pY, int pWidth, int pHeight, int u, int v, ResourceLocation pResourceLocation, Button.OnPress pOnPress, Supplier<Boolean> booleanSupplier) {
+        this(pX, pY, pWidth, pHeight, u, v, pHeight, pResourceLocation, 256, 256, pOnPress,booleanSupplier);
     }
 
-    public TexturedToggleWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, ResourceLocation texture, ToggleCondition condition, OnPress pressAction) {
-        this(x, y, width, height, u, v, hoveredVOffset, texture, 256, 256, condition, pressAction);
+    public TexturedToggleWidget(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, Button.OnPress pOnPress,Supplier<Boolean> supplier) {
+        this(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffTex, pResourceLocation, 256, 256, pOnPress,supplier);
     }
 
-    public TexturedToggleWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, ResourceLocation texture, int textureWidth, int textureHeight, ToggleCondition condition, OnPress pressAction) {
-        this(x, y, width, height, u, v, hoveredVOffset, texture, textureWidth, textureHeight, condition, pressAction, Component.empty());
+    public TexturedToggleWidget(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight, Button.OnPress pOnPress,Supplier<Boolean> supplier) {
+        this(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffTex, pResourceLocation, pTextureWidth, pTextureHeight, pOnPress, CommonComponents.EMPTY,supplier);
     }
 
-    public TexturedToggleWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, ResourceLocation texture, int textureWidth, int textureHeight, ToggleCondition condition, OnPress pressAction, Component text) {
-        this(x, y, width, height, u, v, hoveredVOffset, texture, textureWidth, textureHeight, condition, pressAction, NO_TOOLTIP, text);
+    public TexturedToggleWidget(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight, Button.OnPress pOnPress, Component pMessage,Supplier<Boolean> supplier) {
+        super(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffTex, pResourceLocation, pTextureWidth, pTextureHeight, pOnPress, pMessage);
+        this.booleanSupplier = supplier;
     }
 
-    public TexturedToggleWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, ResourceLocation texture, int textureWidth, int textureHeight, ToggleCondition condition, OnPress pressAction, OnTooltip tooltipSupplier, Component text) {
-        super(x, y, width, height, text, pressAction, tooltipSupplier);
-        this.condition = condition;
-        this.textureWidth = textureWidth;
-        this.textureHeight = textureHeight;
-        this.u = u;
-        this.v = v;
-        this.hoveredVOffset = hoveredVOffset;
-        this.texture = texture;
-    }
-
-    public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, this.texture);
-        int i = this.v;
-        if (this.isHoveredOrFocused()) {
-            i += this.hoveredVOffset;
+    @Override
+    public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        int j = xTexStart;
+        if (booleanSupplier.get()) {
+            j+=width;
         }
-        int j = this.u;
-        if (condition.isOn()) {
-            j += this.width;
-        }
-
-        RenderSystem.enableDepthTest();
-        blit(matrices, this.x, this.y, (float)j, (float)i, this.width, this.height, this.textureWidth, this.textureHeight);
-        if (this.isHovered) {
-            this.renderToolTip(matrices, mouseX, mouseY);
-        }
-    }
-
-    @FunctionalInterface
-    public interface ToggleCondition {
-        boolean isOn();
+            this.renderTexture(pGuiGraphics, this.resourceLocation, this.getX(), this.getY(), this.xTexStart, this.yTexStart,
+                    this.yDiffTex, j, this.height, this.textureWidth, this.textureHeight);
     }
 }

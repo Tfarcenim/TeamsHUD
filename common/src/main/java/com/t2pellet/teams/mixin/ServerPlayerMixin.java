@@ -28,8 +28,8 @@ public class ServerPlayerMixin extends Player implements IHasTeam {
 	@Unique
 	private Team team;
 
-	public ServerPlayerMixin(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, @Nullable ProfilePublicKey $$4) {
-		super($$0, $$1, $$2, $$3, $$4);
+	public ServerPlayerMixin(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) {
+		super($$0, $$1, $$2, $$3);
 	}
 
 

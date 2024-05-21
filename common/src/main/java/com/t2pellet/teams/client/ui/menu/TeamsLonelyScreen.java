@@ -1,14 +1,14 @@
 package com.t2pellet.teams.client.ui.menu;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.client.core.ClientTeamDB;
 import com.t2pellet.teams.core.ModComponents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
 
 public class TeamsLonelyScreen extends TeamsScreen {
 
@@ -32,17 +32,19 @@ public class TeamsLonelyScreen extends TeamsScreen {
             yPos += 24;
         }
         // Menu buttons
-        addRenderableWidget(new Button(this.width / 2 - 106, y + HEIGHT - 30, 100, 20, ModComponents.CREATE_TEXT, button -> minecraft.setScreen(new TeamsCreateScreen(this))));
-        addRenderableWidget(new Button(this.width / 2 + 6, y + HEIGHT - 30, 100, 20, ModComponents.GO_BACK_TEXT, button -> minecraft.setScreen(parent)));
+        addRenderableWidget(Button.builder(ModComponents.CREATE_TEXT, button -> minecraft.setScreen(new TeamsCreateScreen(this)))
+                .bounds(this.width / 2 - 106, y + HEIGHT - 30, 100, 20).build());
+        addRenderableWidget(Button.builder( ModComponents.GO_BACK_TEXT, button -> minecraft.setScreen(parent))
+                .bounds(this.width / 2 + 6, y + HEIGHT - 30, 100, 20).build());
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
         if (ClientTeamDB.INSTANCE.getOnlineTeams().isEmpty()) {
             int textWidth = font.width(ModComponents.LONELY_TEXT);
             int textHeight   = font.lineHeight;
-            font.draw(matrices, ModComponents.LONELY_TEXT, (int) ((this.width - textWidth) / 2), y + 24 - (int) (textHeight / 2), Color.BLACK.getRGB());
+            graphics.drawString(font, ModComponents.LONELY_TEXT, (this.width - textWidth) / 2, y + 24 - (textHeight / 2), ChatFormatting.BLACK.getColor());
         }
     }
 
