@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -34,6 +35,7 @@ public class TeamsHUDForge {
         MinecraftForge.EVENT_BUS.addListener(this::playerClone);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarted);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStopped);
+        MinecraftForge.EVENT_BUS.addListener(this::onAdvancement);
 
         if (FMLEnvironment.dist.isClient()) {
             TeamsHUDClientForge.init(bus);
@@ -59,6 +61,10 @@ public class TeamsHUDForge {
         final Pair<TomlConfig.Server, ForgeConfigSpec> specPair2 = new ForgeConfigSpec.Builder().configure(TomlConfig.Server::new);
         SERVER_SPEC = specPair2.getRight();
         SERVER = specPair2.getLeft();
+    }
+
+    private void onAdvancement(AdvancementEvent.AdvancementEarnEvent event) {
+        TeamsHUD.onAdvancement((ServerPlayer) event.getEntity(),event.getAdvancement());
     }
 
     private void onServerStarted(ServerStartedEvent event) {

@@ -28,7 +28,7 @@ public class TeamsMainScreen extends TeamsScreen {
         for (var teammate : ClientTeam.INSTANCE.getTeammates()) {
             boolean local = minecraft.player.getUUID().equals(teammate.id);
             var entry = new TeammateEntry(teammate, xPos, yPos, local);
-            addRenderableWidget(entry);
+            addRenderableOnly(entry);
             if (entry.getFavButton() != null) {
                 addWidget(entry.getFavButton());
             }

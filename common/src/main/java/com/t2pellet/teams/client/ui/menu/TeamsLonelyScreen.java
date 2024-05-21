@@ -44,7 +44,7 @@ public class TeamsLonelyScreen extends TeamsScreen {
         if (ClientTeamDB.INSTANCE.getOnlineTeams().isEmpty()) {
             int textWidth = font.width(ModComponents.LONELY_TEXT);
             int textHeight   = font.lineHeight;
-            graphics.drawString(font, ModComponents.LONELY_TEXT, (this.width - textWidth) / 2, y + 24 - (textHeight / 2), ChatFormatting.BLACK.getColor());
+            graphics.drawString(font, ModComponents.LONELY_TEXT, (this.width - textWidth) / 2, y + 24 - (textHeight / 2), ChatFormatting.BLACK.getColor(),false);
         }
     }
 
