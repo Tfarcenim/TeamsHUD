@@ -4,11 +4,10 @@ import com.t2pellet.teams.TeamsHUD;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.t2pellet.teams.client.core.ClientTeamDB;
 import com.t2pellet.teams.core.ModComponents;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
-
-import java.awt.*;
 
 public class TeamsLonelyScreen extends TeamsScreen {
 
@@ -42,7 +41,7 @@ public class TeamsLonelyScreen extends TeamsScreen {
         if (ClientTeamDB.INSTANCE.getOnlineTeams().isEmpty()) {
             int textWidth = font.width(ModComponents.LONELY_TEXT);
             int textHeight   = font.lineHeight;
-            font.draw(matrices, ModComponents.LONELY_TEXT, (int) ((this.width - textWidth) / 2), y + 24 - (int) (textHeight / 2), Color.BLACK.getRGB());
+            font.draw(matrices, ModComponents.LONELY_TEXT, (this.width - textWidth) / 2, y + 24 - (textHeight / 2), ChatFormatting.BLACK.getColor());
         }
     }
 

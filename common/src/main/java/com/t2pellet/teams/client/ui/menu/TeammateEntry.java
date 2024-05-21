@@ -6,6 +6,7 @@ import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.network.server.C2STeamKickPacket;
 import com.t2pellet.teams.platform.Services;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ImageButton;
@@ -16,8 +17,6 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.*;
-
 public class TeammateEntry extends GuiComponent implements Widget, GuiEventListener, NarratableEntry {
 
     static final int WIDTH = 244;
@@ -26,11 +25,11 @@ public class TeammateEntry extends GuiComponent implements Widget, GuiEventListe
 
     private ImageButton kickButton;
     private TexturedToggleWidget favButton;
-    private Minecraft client;
-    private TeamsMainScreen parent;
-    private ClientTeam.Teammate teammate;
-    private int x;
-    private int y;
+    private final Minecraft client;
+    private final TeamsMainScreen parent;
+    private final ClientTeam.Teammate teammate;
+    private final int x;
+    private final int y;
 
     public TeammateEntry(TeamsMainScreen parent, ClientTeam.Teammate teammate, int x, int y, boolean local) {
         this.client = Minecraft.getInstance();
@@ -69,7 +68,7 @@ public class TeammateEntry extends GuiComponent implements Widget, GuiEventListe
         blit(matrices, (int) ((x + 4) / scale), (int) ((y + 4) / scale), 32, 32, 32, 32);
         matrices.popPose();
         // Nameplate
-        client.font.draw(matrices, teammate.name, x + 24, y + 12 - (int) (client.font.lineHeight / 2), Color.BLACK.getRGB());
+        client.font.draw(matrices, teammate.name, x + 24, y + 12 - (client.font.lineHeight / 2), ChatFormatting.BLACK.getColor());
         // Buttons
         if (favButton != null) {
             favButton.render(matrices, mouseX, mouseY, delta);

@@ -10,7 +10,7 @@
   ],
   "client": [
     "InventoryScreenAccessor",
-    "ScreenAccessor"
+    "ScreenMixin"
   ],
   "server": [
   ],
