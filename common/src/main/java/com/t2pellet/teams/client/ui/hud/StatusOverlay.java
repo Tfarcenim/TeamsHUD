@@ -1,6 +1,5 @@
 package com.t2pellet.teams.client.ui.hud;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
 import com.t2pellet.teams.core.ModComponents;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class StatusOverlay {
 
-    private static final ResourceLocation ICONS = new ResourceLocation(TeamsHUD.MODID, "textures/gui/hudicons.png");
+    private static final ResourceLocation ICONS = TeamsHUD.id("textures/gui/hudicons.png");
 
     public boolean enabled = true;
     private final Minecraft client;

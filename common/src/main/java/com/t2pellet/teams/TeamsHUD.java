@@ -9,6 +9,7 @@ import com.t2pellet.teams.platform.Services;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
@@ -113,6 +114,10 @@ public class TeamsHUD {
             List<ServerPlayer> players = team.getOnlinePlayers().stream().filter(other -> !other.equals(player)).collect(Collectors.toList());
             Services.PLATFORM.sendToClients(new S2CTeamPlayerDataPacket(player, S2CTeamPlayerDataPacket.Type.UPDATE), players);
         }
+    }
+
+    public static ResourceLocation id(String path) {
+        return new ResourceLocation(MODID,path);
     }
 
 }

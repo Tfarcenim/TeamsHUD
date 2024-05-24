@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public abstract class TeamsInputScreen extends TeamsScreen {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/smaller_background.png");
+    private static final ResourceLocation TEXTURE = TeamsHUD.id("textures/gui/smaller_background.png");
     private static final int WIDTH = 120;
     private static final int HEIGHT = 110;
 

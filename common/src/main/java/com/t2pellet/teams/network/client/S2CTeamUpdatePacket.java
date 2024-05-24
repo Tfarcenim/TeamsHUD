@@ -39,7 +39,7 @@ public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
         to.writeNbt(tag);
     }
 
-    public static final PacketLocation<S2CTeamUpdatePacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_update"), S2CTeamUpdatePacket.class);
+    public static final PacketLocation<S2CTeamUpdatePacket> ID = new PacketLocation<>(TeamsHUD.id("team_update"), S2CTeamUpdatePacket.class);
 
     @Override
     public PacketLocation<S2CTeamUpdatePacket> id() {

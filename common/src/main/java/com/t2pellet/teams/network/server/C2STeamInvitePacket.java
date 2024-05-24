@@ -28,7 +28,7 @@ public class C2STeamInvitePacket implements C2SModPacket<C2STeamInvitePacket> {
         to.writeUtf(this.to);
     }
 
-    public static final PacketLocation<C2STeamInvitePacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_invite"),C2STeamInvitePacket.class);
+    public static final PacketLocation<C2STeamInvitePacket> ID = new PacketLocation<>(TeamsHUD.id("team_invite"),C2STeamInvitePacket.class);
 
     @Override
     public PacketLocation<C2STeamInvitePacket> id() {

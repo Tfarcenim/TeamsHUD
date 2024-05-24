@@ -34,7 +34,7 @@ public class C2STeamCreatePacket implements C2SModPacket<C2STeamCreatePacket> {
         }
     }
 
-    public static final PacketLocation<C2STeamCreatePacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_create"),C2STeamCreatePacket.class);
+    public static final PacketLocation<C2STeamCreatePacket> ID = new PacketLocation<>(TeamsHUD.id("team_create"),C2STeamCreatePacket.class);
 
     @Override
     public PacketLocation<C2STeamCreatePacket> id() {

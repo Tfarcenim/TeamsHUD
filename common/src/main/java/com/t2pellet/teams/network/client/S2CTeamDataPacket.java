@@ -59,7 +59,7 @@ public class S2CTeamDataPacket implements S2CModPacket<S2CTeamDataPacket> {
         }
     }
 
-    public static final PacketLocation<S2CTeamDataPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_data_packet"),S2CTeamDataPacket.class);
+    public static final PacketLocation<S2CTeamDataPacket> ID = new PacketLocation<>(TeamsHUD.id("team_data_packet"),S2CTeamDataPacket.class);
 
     @Override
     public PacketLocation<S2CTeamDataPacket> id() {

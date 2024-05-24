@@ -27,7 +27,7 @@ public class C2STeamRequestPacket implements C2SModPacket<C2STeamRequestPacket> 
         to.writeUtf(name);
     }
 
-    public static final PacketLocation<C2STeamRequestPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_request"), C2STeamRequestPacket.class);
+    public static final PacketLocation<C2STeamRequestPacket> ID = new PacketLocation<>(TeamsHUD.id("team_request"), C2STeamRequestPacket.class);
     @Override
     public PacketLocation<C2STeamRequestPacket> id() {
         return ID;

@@ -28,7 +28,7 @@ public class S2CTeamInviteSentPacket implements S2CModPacket<S2CTeamInviteSentPa
         to.writeUtf(player);
     }
 
-    public static final PacketLocation<S2CTeamInviteSentPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_invite_sent"), S2CTeamInviteSentPacket.class);
+    public static final PacketLocation<S2CTeamInviteSentPacket> ID = new PacketLocation<>(TeamsHUD.id("team_invite_sent"), S2CTeamInviteSentPacket.class);
 
     @Override
     public PacketLocation<S2CTeamInviteSentPacket> id() {

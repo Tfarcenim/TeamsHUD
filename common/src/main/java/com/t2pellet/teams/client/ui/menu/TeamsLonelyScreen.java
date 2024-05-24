@@ -14,7 +14,7 @@ public class TeamsLonelyScreen extends TeamsScreen {
 
     static final int WIDTH = 256;
     static final int HEIGHT = 166;
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/screen_background.png");
+    private static final ResourceLocation TEXTURE = TeamsHUD.id("textures/gui/screen_background.png");
 
     public TeamsLonelyScreen(Screen parent) {
         super(parent, ModComponents.LONELY_MENU_TITLE);

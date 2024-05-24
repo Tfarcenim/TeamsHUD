@@ -30,7 +30,7 @@ public class S2CTeamInvitedPacket implements S2CModPacket<S2CTeamInvitedPacket> 
         to.writeUtf(team);
     }
 
-    public static final PacketLocation<S2CTeamInvitedPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_invited"), S2CTeamInvitedPacket.class);
+    public static final PacketLocation<S2CTeamInvitedPacket> ID = new PacketLocation<>(TeamsHUD.id("team_invited"), S2CTeamInvitedPacket.class);
 
     @Override
     public PacketLocation<S2CTeamInvitedPacket> id() {

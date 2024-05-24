@@ -22,7 +22,7 @@ public class C2STeamLeavePacket implements C2SModPacket<C2STeamLeavePacket> {
 
     }
 
-    public static final PacketLocation<C2STeamLeavePacket> ID =  new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_leave"), C2STeamLeavePacket.class);
+    public static final PacketLocation<C2STeamLeavePacket> ID =  new PacketLocation<>(TeamsHUD.id("team_leave"), C2STeamLeavePacket.class);
 
     @Override
     public PacketLocation<C2STeamLeavePacket> id() {

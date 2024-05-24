@@ -34,7 +34,7 @@ public class C2STeamKickPacket implements C2SModPacket<C2STeamKickPacket> {
         to.writeUUID(toKick);
     }
 
-    public static final PacketLocation<C2STeamKickPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_kick"),C2STeamKickPacket.class);
+    public static final PacketLocation<C2STeamKickPacket> ID = new PacketLocation<>(TeamsHUD.id("team_kick"),C2STeamKickPacket.class);
 
     @Override
     public PacketLocation<C2STeamKickPacket> id() {

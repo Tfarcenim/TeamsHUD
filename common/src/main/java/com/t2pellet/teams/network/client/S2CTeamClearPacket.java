@@ -14,7 +14,7 @@ public class S2CTeamClearPacket implements S2CModPacket<S2CTeamClearPacket> {
     public S2CTeamClearPacket(FriendlyByteBuf byteBuf) {
     }
 
-    public static final PacketLocation<S2CTeamClearPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_clear"),S2CTeamClearPacket.class);
+    public static final PacketLocation<S2CTeamClearPacket> ID = new PacketLocation<>(TeamsHUD.id("team_clear"),S2CTeamClearPacket.class);
 
     @Override
     public PacketLocation<S2CTeamClearPacket> id() {

@@ -27,7 +27,7 @@ public class TeamsHUDClient {
         Minecraft.getInstance().options.keyMappings = ArrayUtils.add(Minecraft.getInstance().options.keyMappings, keyMapping);
     }
 
-    public static final ResourceLocation TEAMS_BUTTON_TEXTURE = new ResourceLocation(TeamsHUD.MODID, "textures/gui/buttonsmall.png");
+    public static final ResourceLocation TEAMS_BUTTON_TEXTURE = TeamsHUD.id("textures/gui/buttonsmall.png");
 
     public static void registerKeybinds() {
         // Register keybinds

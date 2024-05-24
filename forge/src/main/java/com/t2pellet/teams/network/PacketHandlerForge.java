@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 public class PacketHandlerForge {
 
-    public static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(TeamsHUD.MODID, TeamsHUD.MODID), () -> "1.0", s -> true, s -> true);;
+    public static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(TeamsHUD.id(TeamsHUD.MODID), () -> "1.0", s -> true, s -> true);;
 
     public static <MSG extends S2CModPacket<MSG>> BiConsumer<MSG, Supplier<NetworkEvent.Context>> wrapS2C() {
         return ((msg, contextSupplier) -> {

@@ -27,7 +27,7 @@ public class S2CTeamInitPacket implements S2CModPacket<S2CTeamInitPacket> {
         to.writeBoolean(perms);
     }
 
-    public static final PacketLocation<S2CTeamInitPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_init"), S2CTeamInitPacket.class);
+    public static final PacketLocation<S2CTeamInitPacket> ID = new PacketLocation<>(TeamsHUD.id("team_init"), S2CTeamInitPacket.class);
 
     @Override
     public PacketLocation<S2CTeamInitPacket> id() {

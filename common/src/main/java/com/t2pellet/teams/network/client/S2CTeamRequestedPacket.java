@@ -31,7 +31,7 @@ public class S2CTeamRequestedPacket implements S2CModPacket<S2CTeamRequestedPack
         to.writeNbt(tag);
     }
 
-    public static final PacketLocation<S2CTeamRequestedPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_requested"), S2CTeamRequestedPacket.class);
+    public static final PacketLocation<S2CTeamRequestedPacket> ID = new PacketLocation<>(TeamsHUD.id("team_requested"), S2CTeamRequestedPacket.class);
 
     @Override
     public PacketLocation<S2CTeamRequestedPacket> id() {

@@ -24,7 +24,7 @@ public class C2STeamJoinPacket implements C2SModPacket<C2STeamJoinPacket>{
         to.writeUtf(team);
     }
 
-    public static final PacketLocation<C2STeamJoinPacket> ID = new PacketLocation<>(new ResourceLocation(TeamsHUD.MODID,"team_join"),C2STeamJoinPacket.class);
+    public static final PacketLocation<C2STeamJoinPacket> ID = new PacketLocation<>(TeamsHUD.id("team_join"),C2STeamJoinPacket.class);
 
     @Override
     public PacketLocation<C2STeamJoinPacket> id() {
