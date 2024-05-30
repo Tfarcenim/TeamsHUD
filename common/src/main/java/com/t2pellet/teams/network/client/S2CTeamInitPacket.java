@@ -1,12 +1,9 @@
 package com.t2pellet.teams.network.client;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeam;
-import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamInitPacket implements S2CModPacket<S2CTeamInitPacket> {
+public class S2CTeamInitPacket implements S2CModPacket {
 
     private final String name;
     private final boolean perms;
@@ -25,13 +22,6 @@ public class S2CTeamInitPacket implements S2CModPacket<S2CTeamInitPacket> {
     public void write(FriendlyByteBuf to) {
         to.writeUtf(name);
         to.writeBoolean(perms);
-    }
-
-    public static final PacketLocation<S2CTeamInitPacket> ID = new PacketLocation<>(TeamsHUD.id("team_init"), S2CTeamInitPacket.class);
-
-    @Override
-    public PacketLocation<S2CTeamInitPacket> id() {
-        return ID;
     }
 
     @Override

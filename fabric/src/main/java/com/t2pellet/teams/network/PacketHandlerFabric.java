@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class PacketHandlerFabric {
 
-    public static <MSG extends C2SModPacket<MSG>> ServerPlayNetworking.PlayChannelHandler wrapC2S(Function<FriendlyByteBuf, MSG> decodeFunction) {
+    public static <MSG extends C2SModPacket> ServerPlayNetworking.PlayChannelHandler wrapC2S(Function<FriendlyByteBuf, MSG> decodeFunction) {
         return new ServerHandler<>(decodeFunction);
     }
 

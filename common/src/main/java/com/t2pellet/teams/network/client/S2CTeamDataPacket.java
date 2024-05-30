@@ -1,16 +1,13 @@
 package com.t2pellet.teams.network.client;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.core.ClientTeamDB;
-import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamDataPacket implements S2CModPacket<S2CTeamDataPacket> {
+public class S2CTeamDataPacket implements S2CModPacket {
 
     private static final String TEAM_KEY = "teamName";
     private static final String TYPE_KEY = "type";
@@ -57,12 +54,5 @@ public class S2CTeamDataPacket implements S2CModPacket<S2CTeamDataPacket> {
                 case CLEAR -> ClientTeamDB.INSTANCE.clear();
             }
         }
-    }
-
-    public static final PacketLocation<S2CTeamDataPacket> ID = new PacketLocation<>(TeamsHUD.id("team_data_packet"),S2CTeamDataPacket.class);
-
-    @Override
-    public PacketLocation<S2CTeamDataPacket> id() {
-        return ID;
     }
 }

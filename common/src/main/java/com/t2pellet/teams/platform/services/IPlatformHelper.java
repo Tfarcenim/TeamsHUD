@@ -1,6 +1,5 @@
 package com.t2pellet.teams.platform.services;
 
-import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CModPacket;
 import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.MultiloaderConfig;
@@ -50,17 +49,17 @@ public interface IPlatformHelper {
 
     MultiloaderConfig getConfig();
 
-    <MSG extends S2CModPacket<MSG>> void sendToClient(S2CModPacket<MSG> msg, ServerPlayer player);
+    void sendToClient(S2CModPacket msg, ServerPlayer player);
 
-    default <MSG extends S2CModPacket<MSG>> void sendToClients(S2CModPacket<MSG> msg, Collection<ServerPlayer> playerList) {
+    default void sendToClients(S2CModPacket msg, Collection<ServerPlayer> playerList) {
         playerList.forEach(player -> sendToClient(msg,player));
     }
-    <MSG extends C2SModPacket<MSG>> void sendToServer(C2SModPacket<MSG> msg);
+    void sendToServer(C2SModPacket msg);
 
     void registerKeyBinding(KeyMapping keyMapping);
 
-    <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf,MSG> reader);
+    <MSG extends S2CModPacket> void registerClientMessage(Class<MSG> packetClass, Function<FriendlyByteBuf,MSG> reader);
 
-    <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation,Function<FriendlyByteBuf,MSG> reader);
+    <MSG extends C2SModPacket> void registerServerMessage(Class<MSG> packetClass, Function<FriendlyByteBuf,MSG> reader);
 
 }

@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class ClientPacketHandlerFabric {
 
-    public static <MSG extends S2CModPacket<MSG>> ClientPlayNetworking.PlayChannelHandler wrapS2C(Function<FriendlyByteBuf,MSG> decodeFunction) {
+    public static <MSG extends S2CModPacket> ClientPlayNetworking.PlayChannelHandler wrapS2C(Function<FriendlyByteBuf,MSG> decodeFunction) {
         return new ClientHandler<>(decodeFunction);
     }
 

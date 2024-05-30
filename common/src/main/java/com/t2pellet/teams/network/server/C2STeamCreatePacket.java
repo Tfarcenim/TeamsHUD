@@ -3,12 +3,10 @@ package com.t2pellet.teams.network.server;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
-import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public class C2STeamCreatePacket implements C2SModPacket<C2STeamCreatePacket> {
+public class C2STeamCreatePacket implements C2SModPacket {
 
     String team;
 
@@ -32,12 +30,5 @@ public class C2STeamCreatePacket implements C2SModPacket<C2STeamCreatePacket> {
         } catch (Team.TeamException e) {
             TeamsHUD.LOGGER.error(e.getMessage());
         }
-    }
-
-    public static final PacketLocation<C2STeamCreatePacket> ID = new PacketLocation<>(TeamsHUD.id("team_create"),C2STeamCreatePacket.class);
-
-    @Override
-    public PacketLocation<C2STeamCreatePacket> id() {
-        return ID;
     }
 }

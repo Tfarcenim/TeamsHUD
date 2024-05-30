@@ -1,9 +1,9 @@
 package com.t2pellet.teams.platform;
 
+import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.TeamsHUDFabric;
 import com.t2pellet.teams.network.ClientPacketHandlerFabric;
 import com.t2pellet.teams.network.PacketHandlerFabric;
-import com.t2pellet.teams.network.PacketLocation;
 import com.t2pellet.teams.network.client.S2CModPacket;
 import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.services.IPlatformHelper;
@@ -14,8 +14,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.Locale;
 import java.util.function.Function;
 
 public class FabricPlatformHelper implements IPlatformHelper {
@@ -56,17 +58,17 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public <MSG extends S2CModPacket<MSG>> void sendToClient(S2CModPacket<MSG> msg, ServerPlayer player) {
+    public void sendToClient(S2CModPacket msg, ServerPlayer player) {
         FriendlyByteBuf buf = PacketByteBufs.create();
         msg.write(buf);
-        ServerPlayNetworking.send(player, msg.id().id(), buf);
+        ServerPlayNetworking.send(player,packet(msg.getClass()), buf);
     }
 
     @Override
-    public <MSG extends C2SModPacket<MSG>> void sendToServer(C2SModPacket<MSG> msg) {
+    public void sendToServer(C2SModPacket msg) {
         FriendlyByteBuf buf = PacketByteBufs.create();
         msg.write(buf);
-        ClientPlayNetworking.send(msg.id().id(), buf);
+        ClientPlayNetworking.send(packet(msg.getClass()), buf);
     }
 
     @Override
@@ -75,12 +77,17 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public <MSG extends S2CModPacket<MSG>> void registerClientMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
-        ClientPlayNetworking.registerGlobalReceiver(packetLocation.id(), ClientPacketHandlerFabric.wrapS2C(reader));
+    public <MSG extends S2CModPacket> void registerClientMessage(Class<MSG> packetClass, Function<FriendlyByteBuf, MSG> reader) {
+        ClientPlayNetworking.registerGlobalReceiver(packet(packetClass), ClientPacketHandlerFabric.wrapS2C(reader));
     }
 
     @Override
-    public <MSG extends C2SModPacket<MSG>> void registerServerMessage(PacketLocation<MSG> packetLocation, Function<FriendlyByteBuf, MSG> reader) {
-        ServerPlayNetworking.registerGlobalReceiver(packetLocation.id(), PacketHandlerFabric.wrapC2S(reader));
+    public <MSG extends C2SModPacket> void registerServerMessage(Class<MSG> packetClass, Function<FriendlyByteBuf, MSG> reader) {
+        ServerPlayNetworking.registerGlobalReceiver(packet(packetClass), PacketHandlerFabric.wrapC2S(reader));
     }
+
+    ResourceLocation packet(Class<?> clazz) {
+        return TeamsHUD.id(clazz.getName().toLowerCase(Locale.ROOT));
+    }
+
 }

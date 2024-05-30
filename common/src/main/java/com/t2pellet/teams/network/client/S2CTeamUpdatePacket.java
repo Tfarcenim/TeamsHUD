@@ -1,12 +1,10 @@
 package com.t2pellet.teams.network.client;
 
-import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.client.TeamsHUDClient;
-import com.t2pellet.teams.network.PacketLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 
-public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
+public class S2CTeamUpdatePacket implements S2CModPacket {
 
     public enum Action {
         JOINED,
@@ -36,12 +34,6 @@ public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
         to.writeNbt(tag);
     }
 
-    public static final PacketLocation<S2CTeamUpdatePacket> ID = new PacketLocation<>(TeamsHUD.id("team_update"), S2CTeamUpdatePacket.class);
-
-    @Override
-    public PacketLocation<S2CTeamUpdatePacket> id() {
-        return ID;
-    }
 
     @Override
     public void handleClient() {

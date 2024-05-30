@@ -1,14 +1,10 @@
 package com.t2pellet.teams.network.client;
 
-import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.client.ui.toast.ToastInvited;
+import com.t2pellet.teams.client.TeamsHUDClient;
 import com.t2pellet.teams.core.Team;
-import com.t2pellet.teams.network.PacketLocation;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
-public class S2CTeamInvitedPacket implements S2CModPacket<S2CTeamInvitedPacket> {
+public class S2CTeamInvitedPacket implements S2CModPacket {
 
     private final String team;
 
@@ -22,7 +18,7 @@ public class S2CTeamInvitedPacket implements S2CModPacket<S2CTeamInvitedPacket> 
 
     @Override
     public void handleClient() {
-        Minecraft.getInstance().getToasts().addToast(new ToastInvited(team));
+        TeamsHUDClient.handleTeamInvitedPacket(team);
     }
 
     @Override
@@ -30,10 +26,4 @@ public class S2CTeamInvitedPacket implements S2CModPacket<S2CTeamInvitedPacket> 
         to.writeUtf(team);
     }
 
-    public static final PacketLocation<S2CTeamInvitedPacket> ID = new PacketLocation<>(TeamsHUD.id("team_invited"), S2CTeamInvitedPacket.class);
-
-    @Override
-    public PacketLocation<S2CTeamInvitedPacket> id() {
-        return ID;
-    }
 }
