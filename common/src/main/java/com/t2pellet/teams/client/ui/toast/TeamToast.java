@@ -36,7 +36,7 @@ public abstract class TeamToast implements Toast {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         graphics.blit(TEXTURE, 0, 0, 0, 64, this.width(), this.height());
         graphics.drawString(manager.getMinecraft().font, title(), 22, 7, ChatFormatting.WHITE.getColor());
-        graphics.drawString(manager.getMinecraft().font, subTitle(), 22, 18, 0xff000000);
+        graphics.drawString(manager.getMinecraft().font, subTitle(), 22, 18, 0xff000000,false);
 
         return startTime - firstDrawTime < Services.PLATFORM.getConfig().toastDuration() * 1000L && team != null ? Visibility.SHOW : Visibility.HIDE;    }
 }

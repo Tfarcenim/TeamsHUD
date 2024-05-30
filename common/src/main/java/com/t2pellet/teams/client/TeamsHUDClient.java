@@ -8,13 +8,16 @@ import com.t2pellet.teams.client.ui.hud.CompassOverlay;
 import com.t2pellet.teams.client.ui.hud.StatusOverlay;
 import com.t2pellet.teams.client.ui.menu.TeamsLonelyScreen;
 import com.t2pellet.teams.client.ui.menu.TeamsMainScreen;
+import com.t2pellet.teams.client.ui.toast.ToastJoin;
+import com.t2pellet.teams.client.ui.toast.ToastLeave;
 import com.t2pellet.teams.mixin.InventoryScreenAccessor;
-import com.t2pellet.teams.mixin.ScreenMixin;
+import com.t2pellet.teams.network.client.S2CTeamUpdatePacket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -51,7 +54,12 @@ public class TeamsHUDClient {
                 } else {
                     minecraft.setScreen(new TeamsLonelyScreen(minecraft.screen));
                 }
-            }));
+            }){
+                @Override
+                protected boolean clicked(double pMouseX, double pMouseY) {
+                    return this.active && this.visible && pMouseX >= (double)this.getX() && pMouseY >= (double)this.getY() && pMouseX < (double)(this.getX() + this.width) && pMouseY < (double)(this.getY() + this.height);
+                }
+            });
         }
     }
 
@@ -60,6 +68,13 @@ public class TeamsHUDClient {
             if (key.keyBinding.consumeClick()) {
                 key.onPress.execute(Minecraft.getInstance());
             }
+        }
+    }
+
+    public static void handleTeamUpdatePacket(String team, String player, S2CTeamUpdatePacket.Action action, boolean isLocal) {
+        switch (action) {
+            case JOINED -> Minecraft.getInstance().getToasts().addToast(new ToastJoin(team, player, isLocal));
+            case LEFT -> Minecraft.getInstance().getToasts().addToast(new ToastLeave(team, player, isLocal));
         }
     }
 }

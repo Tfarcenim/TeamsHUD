@@ -1,13 +1,10 @@
 package com.t2pellet.teams.network.client;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.client.ui.toast.ToastJoin;
-import com.t2pellet.teams.client.ui.toast.ToastLeave;
+import com.t2pellet.teams.client.TeamsHUDClient;
 import com.t2pellet.teams.network.PacketLocation;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
 public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
 
@@ -50,12 +47,8 @@ public class S2CTeamUpdatePacket implements S2CModPacket<S2CTeamUpdatePacket> {
     public void handleClient() {
         String team = tag.getString(TEAM_KEY);
         String player = tag.getString(PLAYER_KEY);
-        Action action = Action.valueOf(tag.getString(ACTION_KEY));
+        S2CTeamUpdatePacket.Action action = S2CTeamUpdatePacket.Action.valueOf(tag.getString(ACTION_KEY));
         boolean isLocal = tag.getBoolean(LOCAL_KEY);
-
-        switch (action) {
-            case JOINED -> Minecraft.getInstance().getToasts().addToast(new ToastJoin(team, player, isLocal));
-            case LEFT -> Minecraft.getInstance().getToasts().addToast(new ToastLeave(team, player, isLocal));
-        }
+        TeamsHUDClient.handleTeamUpdatePacket(team,player,action,isLocal);
     }
 }
