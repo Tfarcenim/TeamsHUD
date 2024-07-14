@@ -12,17 +12,17 @@ import net.minecraft.world.scores.Team;
 @Config(name = TeamsHUD.MODID)
 public class TeamsConfig implements ConfigData, MultiloaderConfig {
 
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     public boolean showInvisibleTeammates = true;
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     public boolean friendlyFireEnabled = false;
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     public Team.Visibility nameTagVisibility = Team.Visibility.ALWAYS;
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     public ChatFormatting colour = ChatFormatting.BOLD;
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     public Team.Visibility deathMessageVisibility = Team.Visibility.ALWAYS;
-    @ConfigEntry.Category("Team Defaults")
+    @ConfigEntry.Category("ModTeam Defaults")
     @Comment("Note that 'push own team' and 'push other teams' are swapped.")
     public Team.CollisionRule collisionRule = Team.CollisionRule.PUSH_OWN_TEAM;
 

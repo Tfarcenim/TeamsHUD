@@ -1,7 +1,7 @@
 package com.t2pellet.teams.network.server;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +24,7 @@ public class C2STeamLeavePacket implements C2SModPacket {
     public void handleServer(ServerPlayer player) {
         try {
             TeamDB.getOrMakeDefault(player.server).removePlayerFromTeam(player);
-        } catch (Team.TeamException ex) {
+        } catch (ModTeam.TeamException ex) {
             TeamsHUD.LOGGER.error(ex.getMessage());
         }
     }

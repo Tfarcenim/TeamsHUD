@@ -23,7 +23,7 @@ public class TeamDB extends SavedData {
 
     private static final String TEAMS_KEY = "teams";
 
-    private Map<String, Team> teams = new HashMap<>();
+    private Map<String, ModTeam> teams = new HashMap<>();
     ServerLevel serverLevel;
     Scoreboard scoreboard;
 
@@ -38,13 +38,13 @@ public class TeamDB extends SavedData {
         return compoundTag;
     }
 
-    public Stream<Team> getTeams() {
+    public Stream<ModTeam> getTeams() {
         return teams.values().stream();
     }
 
-    public void addTeam(Team team) throws Team.TeamException {
+    public void addTeam(ModTeam team) throws ModTeam.TeamException {
         if (teams.containsKey(team.getName())) {
-            throw new Team.TeamException(ModComponents.DUPLICATE_TEAM);
+            throw new ModTeam.TeamException(ModComponents.DUPLICATE_TEAM);
         }
         teams.put(team.getName(), team);
         List<ServerPlayer> players = serverLevel.getServer().getPlayerList().getPlayers();
@@ -52,11 +52,11 @@ public class TeamDB extends SavedData {
         setDirty();
     }
 
-    public Team addTeam(String name, @Nullable ServerPlayer creator) throws Team.TeamException {
+    public ModTeam addTeam(String name, @Nullable ServerPlayer creator) throws ModTeam.TeamException {
         if (creator != null && ((IHasTeam) creator).hasTeam()) {
-            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", creator.getName().getString()));
+            throw new ModTeam.TeamException(ModComponents.translatable("teams.error.alreadyinteam", creator.getName().getString()));
         }
-        Team team = new Team.Builder(name).complete(this);
+        ModTeam team = new ModTeam.Builder(name).complete(this);
         addTeam(team);
         if (creator != null) {
             team.addPlayer(creator);
@@ -67,7 +67,7 @@ public class TeamDB extends SavedData {
         return team;
     }
 
-    public void removeTeam(Team team) {
+    public void removeTeam(ModTeam team) {
         teams.remove(team.getName());
         MinecraftServer server = serverLevel.getServer();
         scoreboard.removePlayerTeam(scoreboard.getPlayerTeam(team.getName()));
@@ -85,32 +85,32 @@ public class TeamDB extends SavedData {
         return teams.containsKey(team);
     }
 
-    public Team getTeam(ServerPlayer player) {
+    public ModTeam getTeam(ServerPlayer player) {
         return ((IHasTeam) player).getTeam();
     }
 
-    public Team getTeam(String name) {
+    public ModTeam getTeam(String name) {
         return teams.get(name);
     }
 
-    public void invitePlayerToTeam(ServerPlayer player, Team team) throws Team.TeamException {
+    public void invitePlayerToTeam(ServerPlayer player, ModTeam team) throws ModTeam.TeamException {
         if (((IHasTeam) player).hasTeam()) {
-            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName().getString()));
+            throw new ModTeam.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName().getString()));
         }
         Services.PLATFORM.sendToClient(new S2CTeamInvitedPacket(team), player);
     }
 
-    public void addPlayerToTeam(ServerPlayer player, Team team) throws Team.TeamException {
+    public void addPlayerToTeam(ServerPlayer player, ModTeam team) throws ModTeam.TeamException {
         if (((IHasTeam) player).hasTeam()) {
-            throw new Team.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName()));
+            throw new ModTeam.TeamException(ModComponents.translatable("teams.error.alreadyinteam", player.getName()));
         }
         team.addPlayer(player);
     }
 
-    public void removePlayerFromTeam(ServerPlayer player) throws Team.TeamException {
-        Team playerTeam = ((IHasTeam) player).getTeam();
+    public void removePlayerFromTeam(ServerPlayer player) throws ModTeam.TeamException {
+        ModTeam playerTeam = ((IHasTeam) player).getTeam();
         if (playerTeam == null) {
-            throw new Team.TeamException(ModComponents.translatable("teams.error.notinteam", player.getName().getString()));
+            throw new ModTeam.TeamException(ModComponents.translatable("teams.error.notinteam", player.getName().getString()));
         }
         playerTeam.removePlayer(player);
         if (playerTeam.isEmpty()) {
@@ -123,8 +123,8 @@ public class TeamDB extends SavedData {
         ListTag list = compound.getList(TEAMS_KEY, Tag.TAG_COMPOUND);
         for (var tag : list) {
             try {
-                addTeam(Team.fromNBT((CompoundTag) tag,this));
-            } catch (Team.TeamException ex) {
+                addTeam(ModTeam.fromNBT((CompoundTag) tag,this));
+            } catch (ModTeam.TeamException ex) {
                 TeamsHUD.LOGGER.error("Failed to load team from NBT" + ex.getMessage());
             }
         }

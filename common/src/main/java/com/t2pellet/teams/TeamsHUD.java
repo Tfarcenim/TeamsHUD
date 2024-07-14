@@ -1,24 +1,18 @@
 package com.t2pellet.teams;
 
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.CommonPacketHandler;
 import com.t2pellet.teams.network.client.S2CTeamDataPacket;
 import com.t2pellet.teams.network.client.S2CTeamPlayerDataPacket;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.storage.LevelResource;
-import net.minecraft.world.scores.Scoreboard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +35,7 @@ public class TeamsHUD {
 
     public static void onAdvancement(ServerPlayer player, Advancement advancement) {
         TeamDB teamDB = TeamDB.getOrMakeDefault(player.server);
-        Team team = teamDB.getTeam(player);
+        ModTeam team = teamDB.getTeam(player);
         if (team != null) {
             team.addAdvancement(advancement);
         }
@@ -49,7 +43,7 @@ public class TeamsHUD {
 
     public static void playerConnect(ServerPlayer player) {
         TeamDB teamDB = TeamDB.getOrMakeDefault(player.server);
-        Team team = teamDB.getTeam(player);
+        ModTeam team = teamDB.getTeam(player);
         if (team != null) {
             team.playerOnline(player, true);
         }
@@ -62,7 +56,7 @@ public class TeamsHUD {
 
     public static void playerDisconnect(ServerPlayer player) {
         TeamDB teamDB = TeamDB.getOrMakeDefault(player.server);
-        Team team = teamDB.getTeam(player);
+        ModTeam team = teamDB.getTeam(player);
         if (team != null) {
             team.playerOffline(player, true);
         }
@@ -70,7 +64,7 @@ public class TeamsHUD {
 
     public static void playerClone(ServerPlayer oldPlayer,ServerPlayer newPlayer,boolean alive) {
         TeamDB teamDB = TeamDB.getOrMakeDefault(oldPlayer.server);
-        Team team = teamDB.getTeam(oldPlayer);
+        ModTeam team = teamDB.getTeam(oldPlayer);
         if (team != null) {
             team.playerOffline(oldPlayer, false);
             team.playerOnline(newPlayer, false);
@@ -78,7 +72,7 @@ public class TeamsHUD {
     }
 
     public static void onPlayerHealthUpdate(ServerPlayer player, float health, int hunger) {
-        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(player);
+        ModTeam team = TeamDB.getOrMakeDefault(player.server).getTeam(player);
         if (team != null) {
             List<ServerPlayer> players = team.getOnlinePlayers().stream().filter(other -> !other.equals(player)).collect(Collectors.toList());
             Services.PLATFORM.sendToClients(new S2CTeamPlayerDataPacket(player, S2CTeamPlayerDataPacket.Type.UPDATE), players);

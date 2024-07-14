@@ -2,7 +2,7 @@ package com.t2pellet.teams.network.server;
 
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.IHasTeam;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,13 +32,13 @@ public class C2STeamInvitePacket implements C2SModPacket {
 
         ServerPlayer toPlayer = player.server.getPlayerList().getPlayer(to);
 
-        Team team = ((IHasTeam) player).getTeam();
+        ModTeam team = ((IHasTeam) player).getTeam();
         if (team == null) {
             TeamsHUD.LOGGER.error("{} tried inviting {} but they are not in a team..", player.getName().getString(), toPlayer.getName().getString());
         } else {
             try {
                 TeamDB.getOrMakeDefault(player.server).invitePlayerToTeam(toPlayer, team);
-            } catch (Team.TeamException e) {
+            } catch (ModTeam.TeamException e) {
                 TeamsHUD.LOGGER.error(e.getMessage());
             }
         }

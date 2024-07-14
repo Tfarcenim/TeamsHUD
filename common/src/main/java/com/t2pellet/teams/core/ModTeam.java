@@ -1,7 +1,6 @@
 package com.t2pellet.teams.core;
 
 import com.mojang.authlib.GameProfile;
-import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.mixin.AdvancementAccessor;
 import com.t2pellet.teams.network.client.*;
 import com.t2pellet.teams.platform.Services;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
@@ -25,7 +23,7 @@ import java.util.stream.Stream;
 
 ;
 
-public class Team extends net.minecraft.world.scores.Team {
+public class ModTeam extends net.minecraft.world.scores.Team {
 
     public final String name;
     private final TeamDB teamDB;
@@ -34,7 +32,7 @@ public class Team extends net.minecraft.world.scores.Team {
     private final Set<Advancement> advancements = new LinkedHashSet<>();
     private PlayerTeam scoreboardTeam;
 
-    Team(Scoreboard scoreboard,String name,TeamDB teamDB) {
+    ModTeam(Scoreboard scoreboard, String name, TeamDB teamDB) {
         this.name = name;
         this.teamDB = teamDB;
         players = new HashSet<>();
@@ -179,8 +177,8 @@ public class Team extends net.minecraft.world.scores.Team {
         return teamDB.serverLevel.getServer().getProfileCache().get(id).map(GameProfile::getName).orElseThrow();
     }
 
-    static Team fromNBT(CompoundTag compound, TeamDB teamDB) {
-        Team team = new Builder(compound.getString("name"))
+    static ModTeam fromNBT(CompoundTag compound, TeamDB teamDB) {
+        ModTeam team = new Builder(compound.getString("name"))
                 .setColour(ChatFormatting.getByName(compound.getString("colour")))
                 .setCollisionRule(CollisionRule.byName(compound.getString("collision")))
                 .setDeathMessageVisibilityRule(Visibility.byName(compound.getString("deathMessages")))
@@ -299,7 +297,7 @@ public class Team extends net.minecraft.world.scores.Team {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Team team && Objects.equals(team.getName(), this.name);
+        return obj instanceof ModTeam team && Objects.equals(team.getName(), this.name);
     }
 
     @Override
@@ -358,8 +356,8 @@ public class Team extends net.minecraft.world.scores.Team {
             return this;
         }
 
-        public Team complete(TeamDB teamDB) {
-            Team team = new Team(teamDB.scoreboard,name,teamDB);
+        public ModTeam complete(TeamDB teamDB) {
+            ModTeam team = new ModTeam(teamDB.scoreboard,name,teamDB);
             team.setShowFriendlyInvisibles(showFriendlyInvisibles);
             team.setFriendlyFireAllowed(friendlyFireAllowed);
             team.setNameTagVisibilityRule(nameTagVisibilityRule);
@@ -368,6 +366,9 @@ public class Team extends net.minecraft.world.scores.Team {
             team.setCollisionRule(collisionRule);
             return team;
         }
+    }
 
+    public PlayerTeam getScoreboardTeam() {
+        return scoreboardTeam;
     }
 }

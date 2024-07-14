@@ -23,7 +23,7 @@ public class TeamsLonelyScreen extends TeamsScreen {
     @Override
     protected void init() {
         super.init();
-        // Team Entries
+        // ModTeam Entries
         int yPos = y + 12;
         for (String team : ClientTeamDB.INSTANCE.getOnlineTeams()) {
             var entry = new TeamEntry(team, this.width / 2 - 122, yPos);

@@ -8,9 +8,9 @@ public interface IHasTeam {
     boolean hasTeam();
 
     // Returns target's team, or null if not in a team
-    Team getTeam();
+    ModTeam getTeam();
 
-    void setTeam(Team team);
+    void setTeam(ModTeam team);
 
     boolean isTeammate(ServerPlayer other);
 }

@@ -1,7 +1,6 @@
 package com.t2pellet.teams.network.server;
 
-import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.client.S2CTeamRequestedPacket;
 import com.t2pellet.teams.platform.Services;
@@ -27,7 +26,7 @@ public class C2STeamRequestPacket implements C2SModPacket {
 
     @Override
     public void handleServer(ServerPlayer player) {
-        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(name);
+        ModTeam team = TeamDB.getOrMakeDefault(player.server).getTeam(name);
         if (team == null) {
             throw new IllegalArgumentException("Got request to join team " + name + ", but that team doesn't exist");
         } else {

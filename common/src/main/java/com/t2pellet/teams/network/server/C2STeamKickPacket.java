@@ -1,7 +1,7 @@
 package com.t2pellet.teams.network.server;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,12 +31,12 @@ public class C2STeamKickPacket implements C2SModPacket {
 
     @Override
     public void handleServer(ServerPlayer player) {
-        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(name);
+        ModTeam team = TeamDB.getOrMakeDefault(player.server).getTeam(name);
         if (player != null && team.playerHasPermissions(player)) {
             ServerPlayer kicked = player.server.getPlayerList().getPlayer(toKick);
             try {
                 TeamDB.getOrMakeDefault(player.server).removePlayerFromTeam(kicked);
-            } catch (Team.TeamException ex) {
+            } catch (ModTeam.TeamException ex) {
                 TeamsHUD.LOGGER.error(ex.getMessage());
             }
         } else {

@@ -1,7 +1,7 @@
 package com.t2pellet.teams.network.server;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,10 +23,10 @@ public class C2STeamJoinPacket implements C2SModPacket {
     }
     @Override
     public void handleServer(ServerPlayer player) {
-        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(this.team);
+        ModTeam team = TeamDB.getOrMakeDefault(player.server).getTeam(this.team);
         try {
             TeamDB.getOrMakeDefault(player.server).addPlayerToTeam(player, team);
-        } catch (Team.TeamException ex) {
+        } catch (ModTeam.TeamException ex) {
             TeamsHUD.LOGGER.error("Failed to join team: {}", team);
             TeamsHUD.LOGGER.error(ex.getMessage());
         }

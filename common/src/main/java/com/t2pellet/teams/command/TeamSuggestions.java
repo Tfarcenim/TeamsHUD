@@ -1,7 +1,7 @@
 package com.t2pellet.teams.command;
 
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.synchronization.SuggestionProviders;
@@ -15,7 +15,7 @@ public class TeamSuggestions {
     }
 
     static final SuggestionProvider<CommandSourceStack> TEAMS = SuggestionProviders.register(new ResourceLocation("teams"), (context, builder) -> {
-        Stream<Team> teams = TeamDB.getOrMakeDefault(((CommandSourceStack)context.getSource()).getServer()).getTeams();
+        Stream<ModTeam> teams = TeamDB.getOrMakeDefault(((CommandSourceStack)context.getSource()).getServer()).getTeams();
         teams.forEach(team -> {
             builder.suggest(team.getName());
         });

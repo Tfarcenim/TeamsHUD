@@ -3,7 +3,7 @@ package com.t2pellet.teams.mixin;
 import com.mojang.authlib.GameProfile;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.core.IHasTeam;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,10 +11,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.ProfilePublicKey;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,7 +28,7 @@ public abstract class ServerPlayerMixin extends Player implements IHasTeam {
 	@Shadow public abstract ServerLevel serverLevel();
 
 	@Unique
-	private Team team;
+	private ModTeam team;
 
 	public ServerPlayerMixin(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) {
 		super($$0, $$1, $$2, $$3);
@@ -43,12 +41,12 @@ public abstract class ServerPlayerMixin extends Player implements IHasTeam {
 	}
 
 	@Override
-	public Team getTeam() {
+	public ModTeam getTeam() {
 		return team;
 	}
 
 	@Override
-	public void setTeam(Team team) {
+	public void setTeam(ModTeam team) {
 		this.team = team;
 	}
 

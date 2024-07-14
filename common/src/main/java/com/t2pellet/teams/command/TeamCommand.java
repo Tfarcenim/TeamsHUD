@@ -9,7 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.t2pellet.teams.core.IHasTeam;
 import com.t2pellet.teams.core.ModComponents;
-import com.t2pellet.teams.core.Team;
+import com.t2pellet.teams.core.ModTeam;
 import com.t2pellet.teams.core.TeamDB;
 import com.t2pellet.teams.network.client.S2CTeamInviteSentPacket;
 import com.t2pellet.teams.platform.Services;
@@ -58,7 +58,7 @@ public class TeamCommand {
         ServerPlayer player = ctx.getSource().getPlayerOrException();
         try {
             TeamDB.getOrMakeDefault(player.server).addTeam(name, player);
-        } catch (Team.TeamException e) {
+        } catch (ModTeam.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
         return Command.SINGLE_SUCCESS;
@@ -67,14 +67,14 @@ public class TeamCommand {
     private static int invitePlayer(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         ServerPlayer player = ctx.getSource().getPlayerOrException();
         ServerPlayer newPlayer = EntityArgument.getPlayer(ctx, "player");
-        Team team = ((IHasTeam) player).getTeam();
+        ModTeam team = ((IHasTeam) player).getTeam();
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.notinteam", player.getName().getString())).create();
         }
         try {
             get(ctx).invitePlayerToTeam(newPlayer, team);
             Services.PLATFORM.sendToClient(new S2CTeamInviteSentPacket(team.getName(), newPlayer.getName().getString()), player);
-        } catch (Team.TeamException e) {
+        } catch (ModTeam.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
         return Command.SINGLE_SUCCESS;
@@ -84,7 +84,7 @@ public class TeamCommand {
         ServerPlayer player = ctx.getSource().getPlayerOrException();
         try {
             get(ctx).removePlayerFromTeam(player);
-        } catch (Team.TeamException e) {
+        } catch (ModTeam.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
         return Command.SINGLE_SUCCESS;
@@ -94,7 +94,7 @@ public class TeamCommand {
         ServerPlayer otherPlayer = EntityArgument.getPlayer(ctx, "player");
         try {
             get(ctx).removePlayerFromTeam(otherPlayer);
-        } catch (Team.TeamException e) {
+        } catch (ModTeam.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
         return Command.SINGLE_SUCCESS;
@@ -102,7 +102,7 @@ public class TeamCommand {
 
     private static int removeTeam(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         String name = ctx.getArgument("name", String.class);
-        Team team = TeamDB.getOrMakeDefault(ctx.getSource().getServer()).getTeam(name);
+        ModTeam team = TeamDB.getOrMakeDefault(ctx.getSource().getServer()).getTeam(name);
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
@@ -119,7 +119,7 @@ public class TeamCommand {
 
     private static int getTeamInfo(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         String name = ctx.getArgument("name", String.class);
-        Team team = get(ctx).getTeam(name);
+        ModTeam team = get(ctx).getTeam(name);
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
