@@ -52,9 +52,11 @@ public class StatusOverlay {
         graphics.drawString(client.font, ModComponents.literal(health), posX + 32, posY, ChatFormatting.WHITE.getColor());
 
         // Hunger
-        String hunger = String.valueOf(teammate.getHunger());
-        graphics.blit(ICONS, posX + 46, posY, 9, 0, 9, 9);
-        graphics.drawString(client.font, ModComponents.literal(hunger), posX + 58, posY, ChatFormatting.WHITE.getColor());
+        if (Services.PLATFORM.getConfig().showHunger()) {
+            String hunger = String.valueOf(teammate.getHunger());
+            graphics.blit(ICONS, posX + 46, posY, 9, 0, 9, 9);
+            graphics.drawString(client.font, ModComponents.literal(hunger), posX + 58, posY, ChatFormatting.WHITE.getColor());
+        }
 
         // Draw skin
         graphics.pose().pushPose();

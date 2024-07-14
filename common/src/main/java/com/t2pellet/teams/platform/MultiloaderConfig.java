@@ -15,4 +15,5 @@ public interface MultiloaderConfig {
     boolean enableCompassHUD();
     boolean enableStatusHUD();
     int toastDuration();
+    boolean showHunger();
 }

@@ -33,6 +33,9 @@ public class TeamsConfig implements ConfigData, MultiloaderConfig {
     @ConfigEntry.Category("Visual")
     @Comment("How long teams toast notifications should last")
     public int toastDuration = 5;
+    @ConfigEntry.Category("Visual")
+    @Comment("Show other team members' hunger")
+    public boolean showHunger = true;
 
     @Override
     public boolean showInvisibleTeammates() {
@@ -77,5 +80,10 @@ public class TeamsConfig implements ConfigData, MultiloaderConfig {
     @Override
     public int toastDuration() {
         return toastDuration;
+    }
+
+    @Override
+    public boolean showHunger() {
+        return showHunger;
     }
 }
