@@ -7,6 +7,7 @@ import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.entity.player.Player;
@@ -23,8 +24,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
-public class ServerPlayerMixin extends Player implements IHasTeam {
+public abstract class ServerPlayerMixin extends Player implements IHasTeam {
 	@Shadow @Final public ServerPlayerGameMode gameMode;
+
+	@Shadow public abstract ServerLevel serverLevel();
+
 	@Unique
 	private Team team;
 
@@ -63,7 +67,7 @@ public class ServerPlayerMixin extends Player implements IHasTeam {
 	@Inject(at = @At(value = "TAIL"), method = "readAdditionalSaveData")
 	private void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo info) {
 		if (team == null && nbt.contains("playerTeam")) {
-			team = TeamDB.INSTANCE.getTeam(nbt.getString("playerTeam"));
+			team = TeamDB.getOrMakeDefault(this.serverLevel().getServer()).getTeam(nbt.getString("playerTeam"));
 			if (team == null || !team.hasPlayer(getUUID())) {
 				team = null;
 			}

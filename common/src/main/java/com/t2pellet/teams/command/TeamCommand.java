@@ -57,7 +57,7 @@ public class TeamCommand {
         String name = ctx.getArgument("name", String.class);
         ServerPlayer player = ctx.getSource().getPlayerOrException();
         try {
-            TeamDB.INSTANCE.addTeam(name, player);
+            TeamDB.getOrMakeDefault(player.server).addTeam(name, player);
         } catch (Team.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
@@ -72,7 +72,7 @@ public class TeamCommand {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.notinteam", player.getName().getString())).create();
         }
         try {
-            TeamDB.INSTANCE.invitePlayerToTeam(newPlayer, team);
+            get(ctx).invitePlayerToTeam(newPlayer, team);
             Services.PLATFORM.sendToClient(new S2CTeamInviteSentPacket(team.getName(), newPlayer.getName().getString()), player);
         } catch (Team.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
@@ -83,7 +83,7 @@ public class TeamCommand {
     private static int leaveTeam(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         ServerPlayer player = ctx.getSource().getPlayerOrException();
         try {
-            TeamDB.INSTANCE.removePlayerFromTeam(player);
+            get(ctx).removePlayerFromTeam(player);
         } catch (Team.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
@@ -93,7 +93,7 @@ public class TeamCommand {
     private static int kickPlayer(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         ServerPlayer otherPlayer = EntityArgument.getPlayer(ctx, "player");
         try {
-            TeamDB.INSTANCE.removePlayerFromTeam(otherPlayer);
+            get(ctx).removePlayerFromTeam(otherPlayer);
         } catch (Team.TeamException e) {
             throw new SimpleCommandExceptionType(new LiteralMessage(e.getMessage())).create();
         }
@@ -102,30 +102,34 @@ public class TeamCommand {
 
     private static int removeTeam(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         String name = ctx.getArgument("name", String.class);
-        Team team = TeamDB.INSTANCE.getTeam(name);
+        Team team = TeamDB.getOrMakeDefault(ctx.getSource().getServer()).getTeam(name);
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
-        TeamDB.INSTANCE.removeTeam(team);
+        get(ctx).removeTeam(team);
         ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.remove", name), false);
         return Command.SINGLE_SUCCESS;
     }
 
     private static int listTeams(CommandContext<CommandSourceStack> ctx) {
         ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.list"), false);
-        TeamDB.INSTANCE.getTeams().forEach(team -> ctx.getSource().sendSuccess(() -> ModComponents.literal(team.getName()), false));
+        get(ctx).getTeams().forEach(team -> ctx.getSource().sendSuccess(() -> ModComponents.literal(team.getName()), false));
         return Command.SINGLE_SUCCESS;
     }
 
     private static int getTeamInfo(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         String name = ctx.getArgument("name", String.class);
-        Team team = TeamDB.INSTANCE.getTeam(name);
+        Team team = get(ctx).getTeam(name);
         if (team == null) {
             throw new SimpleCommandExceptionType(ModComponents.translatable("teams.error.invalidteam", name)).create();
         }
         ctx.getSource().sendSuccess(() -> ModComponents.translatable("teams.success.info", name), false);
         team.getOnlinePlayers().forEach(player -> ctx.getSource().sendSuccess(player::getName, false));
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static TeamDB get(CommandContext<CommandSourceStack> context) {
+        return TeamDB.getOrMakeDefault(context.getSource().getServer());
     }
 
 }

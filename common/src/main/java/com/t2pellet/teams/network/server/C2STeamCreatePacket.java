@@ -1,7 +1,6 @@
 package com.t2pellet.teams.network.server;
 
 import com.t2pellet.teams.TeamsHUD;
-import com.t2pellet.teams.core.Team;
 import com.t2pellet.teams.core.TeamDB;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,8 +25,8 @@ public class C2STeamCreatePacket implements C2SModPacket {
     @Override
     public void handleServer(ServerPlayer player) {
         try {
-            TeamDB.INSTANCE.addTeam(team, player);
-        } catch (Team.TeamException e) {
+            TeamDB.getOrMakeDefault(player.server).addTeam(team, player);
+        } catch (Exception e) {
             TeamsHUD.LOGGER.error(e.getMessage());
         }
     }

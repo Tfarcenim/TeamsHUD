@@ -31,11 +31,11 @@ public class C2STeamKickPacket implements C2SModPacket {
 
     @Override
     public void handleServer(ServerPlayer player) {
-        Team team = TeamDB.INSTANCE.getTeam(name);
+        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(name);
         if (player != null && team.playerHasPermissions(player)) {
-            ServerPlayer kicked = TeamsHUD.getServer().getPlayerList().getPlayer(toKick);
+            ServerPlayer kicked = player.server.getPlayerList().getPlayer(toKick);
             try {
-                TeamDB.INSTANCE.removePlayerFromTeam(kicked);
+                TeamDB.getOrMakeDefault(player.server).removePlayerFromTeam(kicked);
             } catch (Team.TeamException ex) {
                 TeamsHUD.LOGGER.error(ex.getMessage());
             }

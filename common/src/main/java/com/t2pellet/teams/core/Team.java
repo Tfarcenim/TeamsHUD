@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.t2pellet.teams.TeamsHUD;
 import com.t2pellet.teams.mixin.AdvancementAccessor;
 import com.t2pellet.teams.network.client.*;
-import com.t2pellet.teams.platform.MultiloaderConfig;
 import com.t2pellet.teams.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.Advancement;
@@ -16,8 +15,10 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -27,18 +28,20 @@ import java.util.stream.Stream;
 public class Team extends net.minecraft.world.scores.Team {
 
     public final String name;
+    private final TeamDB teamDB;
     private Set<UUID> players;
     private Map<UUID, ServerPlayer> onlinePlayers;
     private final Set<Advancement> advancements = new LinkedHashSet<>();
     private PlayerTeam scoreboardTeam;
 
-    Team(String name) {
+    Team(Scoreboard scoreboard,String name,TeamDB teamDB) {
         this.name = name;
+        this.teamDB = teamDB;
         players = new HashSet<>();
         onlinePlayers = new HashMap<>();
-        scoreboardTeam = TeamsHUD.getScoreboard().getPlayerTeam(name);
+        scoreboardTeam = scoreboard.getPlayerTeam(name);
         if (scoreboardTeam == null) {
-            scoreboardTeam = TeamsHUD.getScoreboard().addPlayerTeam(name);
+            scoreboardTeam = scoreboard.addPlayerTeam(name);
         }
     }
 
@@ -75,7 +78,7 @@ public class Team extends net.minecraft.world.scores.Team {
 
     public void clear() {
         var playersCopy = new ArrayList<>(players);
-        playersCopy.forEach(this::removePlayer);
+        playersCopy.forEach(player -> removePlayer(player));
         advancements.clear();
     }
 
@@ -94,7 +97,7 @@ public class Team extends net.minecraft.world.scores.Team {
         if (sendPackets) {
             Services.PLATFORM.sendToClient(new S2CTeamInitPacket(name, playerHasPermissions(player)), player);
             if (onlinePlayers.size() == 1) {
-                var players = TeamsHUD.getServer().getPlayerList().getPlayers();
+                var players = teamDB.serverLevel.getServer().getPlayerList().getPlayers();
                 Services.PLATFORM.sendToClients(new S2CTeamDataPacket(S2CTeamDataPacket.Type.ONLINE, name), players);
             }
             var players = getOnlinePlayers();
@@ -121,7 +124,7 @@ public class Team extends net.minecraft.world.scores.Team {
         // Packets
         if (sendPackets) {
             if (isEmpty()) {
-                var players = TeamsHUD.getServer().getPlayerList().getPlayers();
+                var players = teamDB.serverLevel.getServer().getPlayerList().getPlayers();
                 Services.PLATFORM.sendToClients(new S2CTeamDataPacket(S2CTeamDataPacket.Type.OFFLINE, name), players);
             }
             var players = getOnlinePlayers();
@@ -133,11 +136,11 @@ public class Team extends net.minecraft.world.scores.Team {
         players.add(player);
         String playerName = getNameFromUUID(player);
         // Scoreboard
-        var playerScoreboardTeam = TeamsHUD.getScoreboard().getPlayersTeam(playerName);
+        var playerScoreboardTeam = teamDB.scoreboard.getPlayersTeam(playerName);
         if (playerScoreboardTeam == null || !playerScoreboardTeam.isAlliedTo(scoreboardTeam)) {
-            TeamsHUD.getScoreboard().addPlayerToTeam(playerName, scoreboardTeam);
+            teamDB.scoreboard.addPlayerToTeam(playerName, scoreboardTeam);
         }
-        var playerEntity = TeamsHUD.getServer().getPlayerList().getPlayer(player);
+        var playerEntity = teamDB.serverLevel.getServer().getPlayerList().getPlayer(player);
         if (playerEntity != null) {
             // Packets
             Services.PLATFORM.sendToClient(new S2CTeamUpdatePacket(name, playerName, S2CTeamUpdatePacket.Action.JOINED, true), playerEntity);
@@ -157,12 +160,12 @@ public class Team extends net.minecraft.world.scores.Team {
         players.remove(player);
         String playerName = getNameFromUUID(player);
         // Scoreboard
-        var playerScoreboardTeam = TeamsHUD.getScoreboard().getPlayersTeam(playerName);
+        var playerScoreboardTeam = teamDB.scoreboard.getPlayersTeam(playerName);
         if (playerScoreboardTeam != null && playerScoreboardTeam.isAlliedTo(scoreboardTeam)) {
-            TeamsHUD.getScoreboard().removePlayerFromTeam(playerName, scoreboardTeam);
+            teamDB.scoreboard.removePlayerFromTeam(playerName, scoreboardTeam);
         }
         // Packets
-        var playerEntity = TeamsHUD.getServer().getPlayerList().getPlayer(player);
+        var playerEntity = teamDB.serverLevel.getServer().getPlayerList().getPlayer(player);
         if (playerEntity != null) {
             playerOffline(playerEntity, true);
             Services.PLATFORM.sendToClient(new S2CTeamClearPacket(), playerEntity);
@@ -173,10 +176,10 @@ public class Team extends net.minecraft.world.scores.Team {
     }
 
     private String getNameFromUUID(UUID id) {
-        return TeamsHUD.getServer().getProfileCache().get(id).map(GameProfile::getName).orElseThrow();
+        return teamDB.serverLevel.getServer().getProfileCache().get(id).map(GameProfile::getName).orElseThrow();
     }
 
-    static Team fromNBT(CompoundTag compound) {
+    static Team fromNBT(CompoundTag compound, TeamDB teamDB) {
         Team team = new Builder(compound.getString("name"))
                 .setColour(ChatFormatting.getByName(compound.getString("colour")))
                 .setCollisionRule(CollisionRule.byName(compound.getString("collision")))
@@ -184,7 +187,7 @@ public class Team extends net.minecraft.world.scores.Team {
                 .setNameTagVisibilityRule(Visibility.byName(compound.getString("nameTags")))
                 .setFriendlyFireAllowed(compound.getBoolean("friendlyFire"))
                 .setShowFriendlyInvisibles(compound.getBoolean("showInvisible"))
-                .complete();
+                .complete(teamDB);
 
         ListTag players = compound.getList("players", Tag.TAG_STRING);
         for (var elem : players) {
@@ -194,7 +197,7 @@ public class Team extends net.minecraft.world.scores.Team {
         ListTag advancements = compound.getList("advancement", Tag.TAG_STRING);
         for (var adv : advancements) {
             ResourceLocation id = ResourceLocation.tryParse(adv.getAsString());
-            team.addAdvancement(TeamsHUD.getServer().getAdvancements().getAdvancement(id));
+            team.addAdvancement(teamDB.serverLevel.getServer().getAdvancements().getAdvancement(id));
         }
 
         return team;
@@ -355,8 +358,8 @@ public class Team extends net.minecraft.world.scores.Team {
             return this;
         }
 
-        public Team complete() {
-            Team team = new Team(name);
+        public Team complete(TeamDB teamDB) {
+            Team team = new Team(teamDB.scoreboard,name,teamDB);
             team.setShowFriendlyInvisibles(showFriendlyInvisibles);
             team.setFriendlyFireAllowed(friendlyFireAllowed);
             team.setNameTagVisibilityRule(nameTagVisibilityRule);

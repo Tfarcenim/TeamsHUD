@@ -23,7 +23,7 @@ public class C2STeamLeavePacket implements C2SModPacket {
     @Override
     public void handleServer(ServerPlayer player) {
         try {
-            TeamDB.INSTANCE.removePlayerFromTeam(player);
+            TeamDB.getOrMakeDefault(player.server).removePlayerFromTeam(player);
         } catch (Team.TeamException ex) {
             TeamsHUD.LOGGER.error(ex.getMessage());
         }

@@ -7,6 +7,7 @@ import com.t2pellet.teams.platform.PhysicalSide;
 import com.t2pellet.teams.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;

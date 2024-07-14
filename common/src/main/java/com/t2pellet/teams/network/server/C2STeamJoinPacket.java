@@ -23,11 +23,11 @@ public class C2STeamJoinPacket implements C2SModPacket {
     }
     @Override
     public void handleServer(ServerPlayer player) {
-        Team team = TeamDB.INSTANCE.getTeam(this.team);
+        Team team = TeamDB.getOrMakeDefault(player.server).getTeam(this.team);
         try {
-            TeamDB.INSTANCE.addPlayerToTeam(player, team);
+            TeamDB.getOrMakeDefault(player.server).addPlayerToTeam(player, team);
         } catch (Team.TeamException ex) {
-            TeamsHUD.LOGGER.error("Failed to join team: " + team);
+            TeamsHUD.LOGGER.error("Failed to join team: {}", team);
             TeamsHUD.LOGGER.error(ex.getMessage());
         }
     }

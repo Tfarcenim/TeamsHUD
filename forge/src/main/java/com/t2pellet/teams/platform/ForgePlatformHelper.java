@@ -8,6 +8,7 @@ import com.t2pellet.teams.network.server.C2SModPacket;
 import com.t2pellet.teams.platform.services.IPlatformHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
